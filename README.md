@@ -77,7 +77,7 @@ This project uses Git for version control, and here are some important Git colla
      ```
      git add .
      git commit -m "Your commit message"
-     git push origin feature-name
+     git push origin your-branch-name/your-feature-name
      ```
 
 6. **Creating a Pull Request**:
