@@ -11,9 +11,9 @@ class infoCard extends StatelessWidget {
         Card(
           child: Container(
             width: 150,
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             height: 140,
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(
@@ -42,9 +42,9 @@ class infoCard extends StatelessWidget {
         Card(
           child: Container(
             width: 150,
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             height: 140,
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(

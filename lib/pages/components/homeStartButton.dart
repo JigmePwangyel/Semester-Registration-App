@@ -5,7 +5,7 @@ class startButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 90,
       child: ElevatedButton(
         onPressed: () {
@@ -13,10 +13,10 @@ class startButton extends StatelessWidget {
         },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
-            Color.fromRGBO(0, 128, 255, 1.0),
+            const Color.fromRGBO(0, 128, 255, 1.0),
           ), // Set the background color
           side: MaterialStateProperty.all<BorderSide>(
-            BorderSide(
+            const BorderSide(
                 width: 2,
                 color: Colors.white), // Set the border (stroke) color and width
           ),
@@ -27,7 +27,7 @@ class startButton extends StatelessWidget {
             ),
           ),
         ),
-        child: Text(
+        child: const Text(
           'Start',
           style: TextStyle(
             color: Colors.white,

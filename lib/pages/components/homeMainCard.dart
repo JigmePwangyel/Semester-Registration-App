@@ -4,15 +4,14 @@ import 'homeStartButton.dart';
 
 class homePageCard extends StatelessWidget {
   const homePageCard({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(15.0),
-            child: Row(
+            padding: const EdgeInsets.all(15.0),
+            child: const Row(
               children: [
                 Icon(
                   Icons.announcement_outlined,
@@ -36,7 +35,7 @@ class homePageCard extends StatelessWidget {
             children: [
               Container(
                 height: 100,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -46,11 +45,11 @@ class homePageCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                child: Row(
+                child: const Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                         left: 15,
                         top: 10,
                       ),
@@ -66,7 +65,7 @@ class homePageCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Positioned(
+              const Positioned(
                 bottom: 16, // Adjust the bottom value as needed
                 right: 16, // Adjust the right value as needed
                 child: startButton(),
@@ -74,8 +73,8 @@ class homePageCard extends StatelessWidget {
             ],
           ),
           Container(
-            padding: EdgeInsets.all(15.0),
-            child: Row(
+            padding: const EdgeInsets.all(15.0),
+            child: const Row(
               children: [
                 Icon(
                   Icons.calendar_today,
@@ -100,8 +99,8 @@ class homePageCard extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(15.0),
-            child: Row(
+            padding: const EdgeInsets.all(15.0),
+            child: const Row(
               children: [
                 Icon(
                   Icons.monetization_on,

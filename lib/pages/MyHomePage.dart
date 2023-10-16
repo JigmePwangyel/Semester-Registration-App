@@ -1,42 +1,55 @@
 import 'package:flutter/material.dart';
-import 'components/homePairOfCards.dart';
-import 'components/homeMainCard.dart';
+import 'package:semester_registration_app/pages/HomeTab.dart';
+import 'package:semester_registration_app/pages/InfoTab.dart';
+import 'package:semester_registration_app/pages/ReceiptTab.dart';
 import 'components/sideMenu.dart';
 import 'components/CustomBottomNavigationBar.dart';
-import 'components/homeNotRegisteredMessage.dart';
-import 'components/homeRegisteredMessage.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+  final PageController _pageController = PageController(initialPage: 0);
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      _pageController.jumpToPage(index);
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: sideMenu(),
+      drawer: const sideMenu(),
       appBar: AppBar(),
-      bottomNavigationBar: const CustomBottomNavigationBar(),
-      body: Padding(
-        padding: EdgeInsets.only(left: 15, right: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 25),
-            Text(
-              "Welcome back Jigme",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            SizedBox(height: 25),
-            notRegisteredContainer(),
-            SizedBox(height: 25),
-            infoCard(),
-            SizedBox(height: 25),
-            homePageCard(),
-          ],
-        ),
+      body: PageView(
+        controller: _pageController,
+        children: const [
+          HomePage(),
+          ReceiptPage(),
+          InfoPage(),
+        ],
+        onPageChanged: (int index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

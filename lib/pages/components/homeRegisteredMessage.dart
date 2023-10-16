@@ -10,12 +10,12 @@ class registeredContainer extends StatelessWidget {
         width: 350,
         height: 40,
         decoration: BoxDecoration(
-          color: Color.fromRGBO(103, 194, 58, 0.37), // Background color
+          color: const Color.fromRGBO(103, 194, 58, 0.37), // Background color
           border: Border.all(
-              color: Color.fromRGBO(57, 156, 48, 0.56)), // Border (stroke)
+              color: const Color.fromRGBO(57, 156, 48, 0.56)), // Border (stroke)
           borderRadius: BorderRadius.circular(5.0), // Rounded corners
         ),
-        padding: EdgeInsets.all(8.0), // Padding inside the container
+        padding: const EdgeInsets.all(8.0), // Padding inside the container
         child: const Row(
           children: [
             Icon(

@@ -3,14 +3,16 @@ import 'package:semester_registration_app/theme/light_mode.dart';
 import 'pages/MyHomePage.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyHomePage(),
+      home: const MyHomePage(),
       theme: lightMode,
     );
   }
