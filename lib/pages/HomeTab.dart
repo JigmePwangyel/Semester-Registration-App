@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semester_registration_app/pages/repeat_module.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -330,6 +331,10 @@ class startButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           // Button click action
+           Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => RepeatModule()),
+          );
         },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
