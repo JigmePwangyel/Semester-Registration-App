@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Setting.dart';
+import '../AccountPage.dart';
 
 class sideMenu extends StatelessWidget {
   const sideMenu({super.key});
@@ -28,7 +29,20 @@ class sideMenu extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.account_box),
                   title: const Text("Your Account"),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AccountPage(
+                        studentName: 'Jigme P Wangyal',
+                        studentID: '02210200',
+                        Department: 'Information Technology',
+                        email: '02210200.cst@rub.edu.bt',
+                        CID: '10601000234',
+                        imageUrl:
+                            "https://images.pexels.com/photos/3454298/pexels-photo-3454298.jpeg?auto=compress&cs=tinysrgb&w=600",
+                      ),
+                    ));
+                  },
                 ),
                 const Divider(),
                 ListTile(
@@ -37,7 +51,7 @@ class sideMenu extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Setting(),
+                      builder: (context) => const Setting(),
                     ));
                   },
                 ),
@@ -62,7 +76,7 @@ class sideMenu extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 140,
             child: AppMode(),
           ),
@@ -87,7 +101,7 @@ class _AppModeState extends State<AppMode> {
     return Center(
       child: Container(
         height: 140,
-        color: Color.fromRGBO(191, 208, 240, 0.49),
+        color: const Color.fromRGBO(191, 208, 240, 0.49),
         child: Padding(
           padding: const EdgeInsets.only(
             left: 15,
@@ -95,14 +109,14 @@ class _AppModeState extends State<AppMode> {
           ),
           child: Row(
             children: [
-              Text(
+              const Text(
                 "App Mode",
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Switch(
                 value: _switchValue,
                 onChanged: (value) {

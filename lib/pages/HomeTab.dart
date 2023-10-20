@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'FeeStructurePage.dart';
+import 'package:semester_registration_app/pages/personal_details.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -136,30 +138,38 @@ class homePageCard extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(15.0),
-            child: const Row(
-              children: [
-                Icon(
-                  Icons.monetization_on,
-                  color: Color.fromRGBO(0, 128, 255, 0.54),
-                ),
-                SizedBox(
-                  width: 8.0,
-                ),
-                Text(
-                  "View Fee Structure",
-                  style: TextStyle(
-                    fontSize: 12,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FeeStructurePage()),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(15.0),
+              child: const Row(
+                children: [
+                  Icon(
+                    Icons.monetization_on,
+                    color: Color.fromRGBO(0, 128, 255, 0.54),
                   ),
-                ),
-                Spacer(),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 18,
-                  color: Color.fromRGBO(0, 0, 0, 0.56),
-                )
-              ],
+                  SizedBox(
+                    width: 8.0,
+                  ),
+                  Text(
+                    "View Fee Structure",
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                  Spacer(),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 18,
+                    color: Color.fromRGBO(0, 0, 0, 0.56),
+                  )
+                ],
+              ),
             ),
           ),
         ],
@@ -330,6 +340,10 @@ class startButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           // Button click action
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PersonalDetails()),
+          );
         },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(

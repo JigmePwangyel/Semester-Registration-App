@@ -5,9 +5,9 @@ class ReceiptPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           top: 15,
           right: 20,
           left: 20,
@@ -35,10 +35,10 @@ class Donwload extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 250,
-      color: Color.fromRGBO(0, 40, 168, 1),
+      color: const Color.fromRGBO(0, 40, 168, 1),
       alignment: Alignment.center,
       child: Column(children: [
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
         SizedBox(
@@ -46,8 +46,8 @@ class Donwload extends StatelessWidget {
           height: 80,
           child: Image.asset('assets/cst.png'),
         ),
-        SizedBox(height: 15),
-        Text(
+        const SizedBox(height: 15),
+        const Text(
           "Thank You For Paying",
           style: TextStyle(
             color: Color.fromRGBO(255, 255, 255, 1),
@@ -55,10 +55,10 @@ class Donwload extends StatelessWidget {
             fontSize: 16,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
-        Button(),
+        const Button(),
       ]),
     );
   }
@@ -71,9 +71,9 @@ class ReceitpInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      color: Color.fromRGBO(0, 25, 105, 1.0),
-      child: Padding(
-        padding: const EdgeInsets.only(
+      color: const Color.fromRGBO(0, 25, 105, 1.0),
+      child: const Padding(
+        padding: EdgeInsets.only(
           left: 8.0,
           right: 8.0,
         ),
@@ -106,7 +106,7 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 200,
       child: ElevatedButton(
         onPressed: () {
@@ -144,7 +144,7 @@ class DisplayFees extends StatelessWidget {
     return Container(
       child: Expanded(
         child: ListView(
-          children: [
+          children: const [
             ListTile(
               leading: Text("Tution Fees"),
               trailing: Text("Nu. 54000"),
@@ -157,7 +157,7 @@ class DisplayFees extends StatelessWidget {
               leading: Text("Hostel Fees"),
               trailing: Text("Nu. 12500"),
             ),
-            const Divider(),
+            Divider(),
             ListTile(
               leading: Text(
                 "Total",
@@ -187,11 +187,11 @@ class JournalNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 5, right: 10),
+            padding: EdgeInsets.only(bottom: 5, right: 10),
             child: Text(
               "Journal Number: 3306",
               style: TextStyle(color: Color.fromARGB(255, 0x7D, 0x7D, 0x7E)),

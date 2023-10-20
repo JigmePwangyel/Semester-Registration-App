@@ -7,7 +7,7 @@ class Setting extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Settings",
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -17,7 +17,7 @@ class Setting extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          ListTile(
+          const ListTile(
             title: Text(
               "GENERAL",
               style: TextStyle(
@@ -28,38 +28,38 @@ class Setting extends StatelessWidget {
             visualDensity: VisualDensity(horizontal: 0, vertical: -4),
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               "Notifications",
               style: TextStyle(
                 fontWeight: FontWeight.w500,
               ),
             ),
             onTap: () {},
-            trailing: Icon(
+            trailing: const Icon(
               Icons.notifications,
               color: Color.fromRGBO(0, 128, 255, 0.54),
             ),
-            contentPadding: EdgeInsets.only(left: 15.0, right: 15.0),
-            visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+            contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               "Sound",
               style: TextStyle(
                 fontWeight: FontWeight.w500,
               ),
             ),
             onTap: () {},
-            trailing: Icon(
+            trailing: const Icon(
               Icons.volume_mute_rounded,
               color: Color.fromRGBO(0, 128, 255, 0.54),
             ),
-            contentPadding: EdgeInsets.only(left: 15.0, right: 15.0),
+            contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0),
           ),
           const Divider(
             thickness: 1,
           ),
-          ListTile(
+          const ListTile(
             title: Text(
               "EXTRA",
               style: TextStyle(
@@ -70,33 +70,33 @@ class Setting extends StatelessWidget {
             visualDensity: VisualDensity(horizontal: 0, vertical: -4),
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               "Help & FAQ",
               style: TextStyle(
                 fontWeight: FontWeight.w500,
               ),
             ),
             onTap: () {},
-            trailing: Icon(
+            trailing: const Icon(
               Icons.help,
               color: Color.fromRGBO(0, 128, 255, 0.54),
             ),
-            contentPadding: EdgeInsets.only(left: 15.0, right: 15.0),
-            visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+            contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
           ),
           ListTile(
-            title: Text(
+            title: const Text(
               "Contact Us",
               style: TextStyle(
                 fontWeight: FontWeight.w500,
               ),
             ),
             onTap: () {},
-            trailing: Icon(
+            trailing: const Icon(
               Icons.call,
               color: Color.fromRGBO(0, 128, 255, 0.54),
             ),
-            contentPadding: EdgeInsets.only(left: 15.0, right: 15.0),
+            contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0),
           ),
         ],
       ),
