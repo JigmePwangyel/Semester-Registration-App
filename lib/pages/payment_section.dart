@@ -1,174 +1,169 @@
 import 'package:flutter/material.dart';
 
-class PaymentSection extends StatelessWidget {
-  PaymentSection({Key? key}) : super(key: key);
+void main() {
+  runApp(MyApp());
+}
 
-  final TextEditingController moduleNameController = TextEditingController();
-  final TextEditingController moduleCodeController = TextEditingController();
-  final TextEditingController statusController = TextEditingController();
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: PaymentSection(),
+    );
+  }
+}
+
+class PaymentSection extends StatelessWidget {
+  const PaymentSection({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(0, 40, 168, 1),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        title: const Text("Register"),
+        centerTitle: true,
       ),
-      body: Container(
-        padding: EdgeInsets.all(16.0),
-        child: MyCustomForm(),
+      body: Padding(
+        padding: const EdgeInsets.all(20), // Add space on all sides
+        child: CardContainer1(), // Wrap the Card in a Container
+      ),
+    );
+  }
+}
+class CardContainer1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 50), // Add space between AppBar and Card
+      child: Card(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(0), // Add padding to the Download content
+              child: Download(),
+            ),
+            DisplayFees(),
+            Button(), // Add the "Download Receipt" button
+            SizedBox(height: 40),
+          ],
+        ),
       ),
     );
   }
 }
 
-class MyCustomForm extends StatelessWidget {
-  MyCustomForm({Key? key});
-
-  final TextEditingController moduleNameController = TextEditingController();
-  final TextEditingController moduleCodeController = TextEditingController();
-  final TextEditingController statusController = TextEditingController();
+class Download extends StatelessWidget {
+  const Download({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        // "Registration" text with a line on the side
-        Center(
-          child: Align(
-            alignment: Alignment(0, -0.9),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  height: 1,
-                  width: 50,
-                  color: Colors.black,
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 15,
-                  ),
-                  child: Text(
-                    'Registration',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  width: 50,
-                  color: Colors.black,
-                ),
-              ],
+    return Container(
+      height: 230,
+      color: const Color.fromRGBO(0, 40, 168, 1),
+      alignment: Alignment.center,
+      child: const Column(
+        children: [
+          SizedBox(
+            height: 15,
+          ),
+          Icon(
+            Icons.info,
+            size: 50,
+            color: Colors.white,
+          ),
+          SizedBox(height: 30),
+          Center(
+            child: Text(
+              "Transfer fees to account no: xxxxxxxxx \n\n In the remark, please enter your student number",
+              style: TextStyle(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
-        ),
-        // Spacer to add space
-        const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+}
 
-        Container(
-          padding: EdgeInsets.all(16),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Color(0xffb9d9f9),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Color(0xff1565c0), width: 2),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.info,
-                color: Colors.blue,
-                size: 32,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Transfer fees to account no: xxxxxxxxx \n In the remark, please enter your student number',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff1565c0),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 20),
+class DisplayFees extends StatelessWidget {
+  const DisplayFees({super.key});
 
-        Expanded(
-          child: ListView(
-            children: [
-              ListTile(
-                title: Text("CDF"),
-                trailing: Text("Nu. 750"),
-              ),
-              ListTile(
-                title: Text("Mess Fees"),
-                trailing: Text("Nu. 2500"),
-              ),
-              ListTile(
-                title: Text("Tuition Fees"),
-                trailing: Text("Nu. 54000"),
-              ),
-              const Divider(),
-              ListTile(
-                title: Text(
-                  "Total",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                trailing: Text(
-                  "Nu. 67000",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView(
+        children: const [
+          ListTile(
+            leading: Text("Tuition Fees"),
+            trailing: Text("Nu. 54000"),
           ),
-        ),
-
-        // Add a Send button at the bottom
-        Center(
-          child: Container(
-            margin: EdgeInsets.only(bottom: 50),
-            width: 105,
-            height: 45,
-            child: ElevatedButton(
-              onPressed: () {
-                // Handle the send button click here
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.orange,
-                onPrimary: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
+          ListTile(
+            leading: Text("Mess Fees"),
+            trailing: Text("Nu. 2500"),
+          ),
+          ListTile(
+            leading: Text("Hostel Fees"),
+            trailing: Text("Nu. 12500"),
+          ),
+          Divider(),
+          ListTile(
+            leading: Text(
+              "Total",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
-              child: Text(
-                "Send",
-                style: TextStyle(fontSize: 18),
+            ),
+            trailing: Text(
+              "Nu. 54000",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class Button extends StatelessWidget {
+  const Button({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 200,
+      height: 44,
+      child: ElevatedButton(
+        onPressed: () {
+          // Button Clicked Action
+        },
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+            const Color.fromRGBO(255, 102, 0, 1.0),
+          ),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
         ),
-      ],
+        child: const Text(
+          'Send the Details',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+      ),
+
     );
   }
 }
