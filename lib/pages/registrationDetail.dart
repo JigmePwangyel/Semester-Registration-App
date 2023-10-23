@@ -27,211 +27,340 @@ class _RegistrationDetails extends State<RegistrationDetails> {
       appBar: AppBar(
         title: Text("Your Registration Details"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            Card(
-              // Set the color scheme.
-              color: colorScheme.surface,
-              // Set the border radius.
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              elevation: 5.0,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 15),
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Your Details",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              Card(
+                // Set the color scheme.
+                color: colorScheme.surface,
+                // Set the border radius.
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 5.0,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15, bottom: 15),
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Your Details",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, top: 10, bottom: 10),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Name: Jigme Phuntsho Wangyel",
-                            style: TextStyle(
-                              fontSize: 16,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, top: 10, bottom: 10, right: 30),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Name:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  'John Doe',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Student Number: 02210200",
-                            style: TextStyle(
-                              fontSize: 16,
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "Student Number:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  '02210200',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Date of Birth: 5/11/2003",
-                            style: TextStyle(
-                              fontSize: 16,
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "Date of Birth:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  '5/11/2023',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Mobile Number:17809910",
-                            style: TextStyle(
-                              fontSize: 16,
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "Mobile Number:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  '17809910',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                        ],
+                            SizedBox(height: 10),
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            Card(
-              // Set the color scheme.
-              color: colorScheme.surface,
-              // Set the border radius.
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              elevation: 5.0,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 15),
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Semester Detail",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
+              SizedBox(height: 10),
+              Card(
+                // Set the color scheme.
+                color: colorScheme.surface,
+                // Set the border radius.
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 5.0,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 15,
+                        bottom: 15,
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Semester Detail",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, top: 10, bottom: 10),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Semester Name: AS2023",
-                            style: TextStyle(
-                              fontSize: 16,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, top: 10, bottom: 10, right: 40),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Semester Name:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  'AS2023',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Your Programme: IT",
-                            style: TextStyle(
-                              fontSize: 16,
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "Programme:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  'IT',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Year: Third",
-                            style: TextStyle(
-                              fontSize: 16,
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "Year:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  'Third',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Semester:5",
-                            style: TextStyle(
-                              fontSize: 16,
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "Semester:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  '5',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                        ],
+                            SizedBox(height: 20),
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            Card(
-              // Set the color scheme.
-              color: colorScheme.surface,
-              // Set the border radius.
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              elevation: 5.0,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 15),
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Parent's Details",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
+              SizedBox(height: 10),
+              Card(
+                // Set the color scheme.
+                color: colorScheme.surface,
+                // Set the border radius.
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 5.0,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 15,
+                        bottom: 15,
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Parents Detail",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, top: 10, bottom: 10),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Name: Jigme Phuntsho Wangyel",
-                            style: TextStyle(
-                              fontSize: 16,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, top: 10, bottom: 10, right: 40),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Parent Name:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  'Jigme Phuntsho Wangyel',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Email id: 02210200.cst@rub.edu.bt",
-                            style: TextStyle(
-                              fontSize: 16,
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "Email ID:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  '02210200.cst@rub.edu.bt',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Current Address: Thimphu",
-                            style: TextStyle(
-                              fontSize: 16,
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "Current Address:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  'Thimphu',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Mobile Number:17809910",
-                            style: TextStyle(
-                              fontSize: 16,
+                            SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "Mobile Number:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  '1789201',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(height: 10),
-                        ],
+                            SizedBox(height: 20),
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );
