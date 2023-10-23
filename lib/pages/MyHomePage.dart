@@ -29,11 +29,24 @@ class _MyWidgetState extends State<MyHomePage> {
     super.dispose();
   }
 
+  AppBar _getAppBar(int selectedIndex) {
+    switch (selectedIndex) {
+      case 0:
+        return AppBar(title: Text('Home Page'));
+      case 1:
+        return AppBar(title: Text('Receipt Page'));
+      case 2:
+        return AppBar(title: Text('Info Page'));
+      default:
+        return AppBar(title: Text('Default App Bar'));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const sideMenu(),
-      appBar: AppBar(),
+      appBar: _getAppBar(_selectedIndex),
       body: PageView(
         controller: _pageController,
         children: const [
