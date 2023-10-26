@@ -1,17 +1,5 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: PaymentSection(),
-    );
-  }
-}
+import 'package:semester_registration_app/pages/send-paymentinfo.dart';
 
 class PaymentSection extends StatelessWidget {
   const PaymentSection({super.key});
@@ -30,16 +18,19 @@ class PaymentSection extends StatelessWidget {
     );
   }
 }
+
 class CardContainer1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 50), // Add space between AppBar and Card
+      margin:
+          const EdgeInsets.only(top: 50), // Add space between AppBar and Card
       child: Card(
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.all(0), // Add padding to the Download content
+              padding: const EdgeInsets.all(
+                  0), // Add padding to the Download content
               child: Download(),
             ),
             DisplayFees(),
@@ -143,6 +134,10 @@ class Button extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           // Button Clicked Action
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SendPaymentInfo()),
+          );
         },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
@@ -163,7 +158,11 @@ class Button extends StatelessWidget {
           ),
         ),
       ),
-
     );
   }
+}
+void main() {
+  runApp(const MaterialApp(
+    home: PaymentSection(),
+  ));
 }
