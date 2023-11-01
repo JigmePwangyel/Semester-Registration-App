@@ -83,7 +83,7 @@ class _RepeatModuleState extends State<RepeatModule> {
               Center(
                 child: SizedBox(
                   width: 105,
-                  height: 45,
+                  height: 44,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(

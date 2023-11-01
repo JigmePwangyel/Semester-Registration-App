@@ -8,7 +8,7 @@ class AddModule extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         title: const Text("Register"),
+        title: const Text("Register"),
         centerTitle: true,
         backgroundColor: const Color.fromRGBO(0, 40, 168, 1),
         leading: IconButton(
@@ -39,9 +39,32 @@ class _MyCustomFormState extends State<MyCustomForm> {
   bool isInvalid = false; // Added isInvalid variable
 
   final Map<String, String> moduleMap = {
-    "Human Computer Interaction": "CTE307",
-    "Advanced Web Technology": "CTE306",
-    "Mobile Application Development": "CTE308",
+    //civil first year
+    "Calculus and Infinite Series": "MAT101",
+    "Introduction to Programming": "CPL101",
+    "Engineering Physics-I": "PHY101",
+    "Engineering Chemistry": "CHE101",
+    "Engineering Graphics": "EGP101",
+    //civil second year
+    "Engineering Mathematics-III": "MAT204",
+    "Fluid Mechanics": "FMH201",
+    "Principles of Surveying-I": "SUR201",
+    "Strength of Materials": "TSM202",
+    "Building Drawing": "BPD202",
+    //civil third year
+    "Enterpreneurship": "EDP101",
+    "Introduction to Research": "PRW301",
+    "Design of Steel Structure-I": "DOS301",
+    "Hydrology": "EVE301",
+    "Structural Mechanics-II": "TSM304",
+    "Soil Mechanics": "FED301",
+    //civil fourth year
+    "Design of Concrete Structures-II": "DOS404",
+    "Hydraulics Structures & Water Power Engineering": "FMH403",
+    "Environmental Engineering-II": "EVE403",
+    "Estimating Costing and Tendering": "BPD403",
+    "Highway Engineering": "HWE401",
+    //"":"",
   };
 
   @override
@@ -98,7 +121,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
           Center(
             child: SizedBox(
               width: 105,
-              height: 45,
+              height: 44,
               child: ElevatedButton(
                 onPressed: () {
                   if (!isInputValid()) {
@@ -131,8 +154,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
   bool isInputValid() {
     return !isInvalid &&
         isSuggestionValid(moduleNameController.text, moduleMap.keys.toList()) &&
-        isSuggestionValid(moduleCodeController.text, moduleMap.values.toList()) &&
-        isSuggestionValid(statusController.text, ["First Repeat", "Second Repeat"]);
+        isSuggestionValid(
+            moduleCodeController.text, moduleMap.values.toList()) &&
+        isSuggestionValid(
+            statusController.text, ["First Repeat", "Second Repeat"]);
   }
 
   bool isSuggestionValid(String input, List<String> suggestions) {
@@ -166,7 +191,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
           },
           itemSubmitted: (item) {
             controller.text = item;
-            isInvalid = false; // Reset isInvalid when a valid suggestion is selected
+            isInvalid =
+                false; // Reset isInvalid when a valid suggestion is selected
             if (onChanged != null) {
               onChanged(item);
             }
