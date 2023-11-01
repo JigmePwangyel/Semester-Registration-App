@@ -11,11 +11,6 @@ const List<String> hostelType = [
   "RK",
   "NK"
 ];
-void main() {
-  runApp(MaterialApp(
-    home: PersonalDetails(),
-  ));
-}
 
 class PersonalDetails extends StatefulWidget {
   PersonalDetails({Key? key}) : super(key: key);

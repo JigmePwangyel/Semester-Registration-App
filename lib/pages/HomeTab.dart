@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:semester_registration_app/provider/user_provider.dart';
 import 'FeeStructurePage.dart';
 import 'package:semester_registration_app/pages/personal_details.dart';
-
+import '../src/user_detail.dart';
 import 'registrationDetail.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,9 +14,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? user_name;
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    final String username = context.watch<UserProvider>().username;
+    return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
@@ -22,16 +27,42 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 25),
-              Text(
-                "Welcome back Jigme",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.w500,
-                ),
+              FutureBuilder<String>(
+                future: getUserName(username),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator(); // Display a loading indicator while fetching data
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final username = snapshot.data ??
+                        'No Name'; // Provide a default value if data is null
+                    final firstname = username.split(' ').first;
+                    return Text('Welcome back $firstname 👋',
+                        style: TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.w500,
+                        ));
+                  }
+                },
               ),
               SizedBox(height: 25),
-              notRegisteredContainer(),
+              FutureBuilder<bool>(
+                  future: isRegistered(username),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator(); // Display a loading indicator while fetching data
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      bool RegistrationStatus = snapshot.data ?? false;
+                      if (RegistrationStatus) {
+                        return registeredContainer();
+                      } else {
+                        return notRegisteredContainer();
+                      }
+                    }
+                  }),
               SizedBox(height: 25),
               infoCard(),
               SizedBox(height: 25),
@@ -96,7 +127,7 @@ class homePageCard extends StatelessWidget {
                         top: 10,
                       ),
                       child: Text(
-                        "Register for the semester",
+                        "Click 'Start' to begin registration",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -214,7 +245,7 @@ class notRegisteredContainer extends StatelessWidget {
             ),
             SizedBox(width: 8.0), // Space between the icon and label
             Text(
-              'You Have Been Registered', //label text
+              'You Have Not Registered', //label text
               style: TextStyle(
                 color:
                     Color.fromRGBO(0x4D, 0x4D, 0x4D, 1.0), // Label text color
@@ -252,7 +283,7 @@ class registeredContainer extends StatelessWidget {
             ),
             SizedBox(width: 8.0), // Space between the icon and label
             Text(
-              'You Have Not Registered', //label text
+              'You Have Registered', //label text
               style: TextStyle(
                 color:
                     Color.fromRGBO(0x4D, 0x4D, 0x4D, 1.0), // Label text color
@@ -295,9 +326,10 @@ class infoCard extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  "Final date of registration",
+                  "Final Date Of registration",
                   style: TextStyle(
                     color: Color.fromRGBO(80, 80, 80, 1),
+                    fontWeight: FontWeight.bold,
                   ),
                 )
               ],
@@ -329,6 +361,7 @@ class infoCard extends StatelessWidget {
                   "Reporting Date",
                   style: TextStyle(
                     color: Color.fromRGBO(80, 80, 80, 1),
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
