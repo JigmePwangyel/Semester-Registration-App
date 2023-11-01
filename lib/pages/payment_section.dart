@@ -1,17 +1,5 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: PaymentSection(),
-    );
-  }
-}
+import 'package:semester_registration_app/pages/send-paymentinfo.dart';
 
 class PaymentSection extends StatelessWidget {
   const PaymentSection({super.key});
@@ -23,28 +11,33 @@ class PaymentSection extends StatelessWidget {
         title: const Text("Register"),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20), // Add space on all sides
+      body: const Padding(
+        padding: EdgeInsets.all(20), // Add space on all sides
         child: CardContainer1(), // Wrap the Card in a Container
       ),
     );
   }
 }
+
 class CardContainer1 extends StatelessWidget {
+  const CardContainer1({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 50), // Add space between AppBar and Card
+      margin:
+          const EdgeInsets.only(top: 50), // Add space between AppBar and Card
       child: Card(
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.all(0), // Add padding to the Download content
-              child: Download(),
+              padding: const EdgeInsets.all(
+                  0), // Add padding to the Download content
+              child: const Download(),
             ),
-            DisplayFees(),
-            Button(), // Add the "Download Receipt" button
-            SizedBox(height: 40),
+            const DisplayFees(),
+            const Button(), // Add the "Download Receipt" button
+            const SizedBox(height: 40),
           ],
         ),
       ),
@@ -143,6 +136,10 @@ class Button extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           // Button Clicked Action
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SendPaymentInfo()),
+          );
         },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
@@ -163,7 +160,11 @@ class Button extends StatelessWidget {
           ),
         ),
       ),
-
     );
   }
+}
+void main() {
+  runApp(const MaterialApp(
+    home: PaymentSection(),
+  ));
 }

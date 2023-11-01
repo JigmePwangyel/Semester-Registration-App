@@ -1,11 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/FetchRegistrationDetailModel.dart';
 
 //To get the username
-/**
- * Please create a model and try again
- */
+/// Please create a model and try again
 Future<String> getUserName(String userId) async {
   final apiUrl =
       'http://192.168.23.159:3000/user/$userId'; // Replace with your API endpoint
@@ -29,9 +26,7 @@ Future<String> getUserName(String userId) async {
   }
 }
 
-/**
- * Please create a mode and try again
- */
+/// Please create a mode and try again
 //TO check wherether the user is registered
 Future<bool> isRegistered(String userId) async {
   final apiUrl = 'http://192.168.23.159:3000/user/$userId/IsRegistered';

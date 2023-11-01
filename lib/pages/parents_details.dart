@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:semester_registration_app/pages/semester_info.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: ParentsDetails(),
   ));
 }
 
 class ParentsDetails extends StatefulWidget {
+  const ParentsDetails({super.key});
+
   @override
   _ParentsDetailsState createState() => _ParentsDetailsState();
 }
@@ -22,17 +24,17 @@ class _ParentsDetailsState extends State<ParentsDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(0, 40, 168, 1),
+        backgroundColor: const Color.fromRGBO(0, 40, 168, 1),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        title: Text('Parents Details'),
+        title: const Text('Parents Details'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: MyCustomForm(
           parentNameController: parentNameController,
           parentMobileController: parentMobileController,
@@ -50,7 +52,7 @@ class MyCustomForm extends StatefulWidget {
   final TextEditingController parentEmailController;
   final TextEditingController parentAddressController;
 
-  MyCustomForm({
+  const MyCustomForm({super.key, 
     required this.parentNameController,
     required this.parentMobileController,
     required this.parentEmailController,
@@ -97,27 +99,27 @@ class _MyCustomFormState extends State<MyCustomForm> {
             ],
           ),
         ),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         buildTextField(
           label: 'Parents Name',
           controller: widget.parentNameController,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         buildTextField(
           label: "Parents' Mobile Number",
           controller: widget.parentMobileController,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         buildTextField(
           label: "Parents' Email ID",
           controller: widget.parentEmailController,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         buildTextField(
           label: "Current Address",
           controller: widget.parentAddressController,
         ),
-        SizedBox(height: 60),
+        const SizedBox(height: 60),
         Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -139,7 +141,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return SemesterDetails();
+                        return const SemesterDetails();
                       },
                     ),
                   );
@@ -154,19 +156,19 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     ),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Save',
                   style: TextStyle(fontSize: 18),
                 ),
               ),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () {
                   // Navigate to Semester Information Details
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return SemesterDetails();
+                        return const SemesterDetails();
                       },
                     ),
                   );
@@ -181,7 +183,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     ),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Next',
                   style: TextStyle(fontSize: 18),
                 ),
@@ -200,10 +202,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 16)),
+        Text(label, style: const TextStyle(fontSize: 16)),
         TextField(
           controller: controller,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),
         ),

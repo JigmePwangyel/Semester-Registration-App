@@ -32,7 +32,7 @@ class sideMenu extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => AccountPage(
+                      builder: (context) => const AccountPage(
                         studentName: 'Jigme P Wangyal',
                         studentID: '02210200',
                         Department: 'Information Technology',

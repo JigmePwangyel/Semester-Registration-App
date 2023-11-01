@@ -7,6 +7,8 @@ import '../provider/user_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   @override
   State<Login> createState() => _LoginState();
 }
@@ -32,17 +34,17 @@ class _LoginState extends State<Login> {
             // Containers for Images
             Container(
               constraints:
-                  BoxConstraints(maxHeight: 200, maxWidth: double.infinity),
+                  const BoxConstraints(maxHeight: 200, maxWidth: double.infinity),
               decoration: BoxDecoration(
                 color: mycolor,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.zero,
                   topRight: Radius.zero,
                   bottomLeft: Radius.elliptical(700, 400),
                   bottomRight: Radius.elliptical(800, 400),
                 ),
                 image: DecorationImage(
-                  image: AssetImage('assets/basketball_Login.jpeg'),
+                  image: const AssetImage('assets/basketball_Login.jpeg'),
                   fit: BoxFit.fitWidth,
                   colorFilter: ColorFilter.mode(
                       mycolor.withOpacity(0.4), BlendMode.dstATop),
@@ -60,7 +62,7 @@ class _LoginState extends State<Login> {
               child: Column(
                 children: [
                   // Setting The Text
-                  Text(
+                  const Text(
                     'Login',
                     style: TextStyle(
                       color: Color(0xFF0028A8),
@@ -68,7 +70,7 @@ class _LoginState extends State<Login> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
 
                   // Email Address
                   TextField(
@@ -84,7 +86,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   // Password
                   TextField(
                     onChanged: (value) {
@@ -104,7 +106,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
 
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
 
                   //Login Button
                   Padding(
@@ -112,7 +114,7 @@ class _LoginState extends State<Login> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                           colors: [
@@ -130,7 +132,7 @@ class _LoginState extends State<Login> {
                             userProvider.setUserName(username);
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => MyHomePage(),
+                                builder: (context) => const MyHomePage(),
                               ),
                             );
                           } else {
@@ -152,7 +154,7 @@ class _LoginState extends State<Login> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(

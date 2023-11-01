@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class FeeStructurePage extends StatefulWidget {
+  const FeeStructurePage({super.key});
+
   @override
   _FeeStructurePageState createState() => _FeeStructurePageState();
 }
@@ -12,7 +14,7 @@ class _FeeStructurePageState extends State<FeeStructurePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fee Structure'),
+        title: const Text('Fee Structure'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -23,7 +25,7 @@ class _FeeStructurePageState extends State<FeeStructurePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text('Self-Finance'),
+                const Text('Self-Finance'),
                 Switch(
                   value: isSelfFinance,
                   onChanged: (value) {
@@ -32,15 +34,15 @@ class _FeeStructurePageState extends State<FeeStructurePage> {
                     });
                   },
                 ),
-                Text('Other Scholarships'),
+                const Text('Other Scholarships'),
               ],
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Fee Structure for Self-Finance Students
             if (isSelfFinance)
-              Column(
+              const Column(
                 children: <Widget>[
                   Text(
                     'Self-Finance Student Fee Structure',
@@ -91,7 +93,7 @@ class _FeeStructurePageState extends State<FeeStructurePage> {
 
             // Fee Structure for Other Scholarship Students
             if (!isSelfFinance)
-              Column(
+              const Column(
                 children: <Widget>[
                   Text(
                     'RGoB Scholarship Student Fee Structure',

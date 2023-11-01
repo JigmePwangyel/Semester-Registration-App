@@ -22,16 +22,16 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(left: 15, right: 15),
+          padding: const EdgeInsets.only(left: 15, right: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
               FutureBuilder<String>(
                 future: getUserName(username),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator(); // Display a loading indicator while fetching data
+                    return const CircularProgressIndicator(); // Display a loading indicator while fetching data
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
@@ -39,34 +39,34 @@ class _HomePageState extends State<HomePage> {
                         'No Name'; // Provide a default value if data is null
                     final firstname = username.split(' ').first;
                     return Text('Welcome back $firstname 👋',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 23,
                           fontWeight: FontWeight.w500,
                         ));
                   }
                 },
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
               FutureBuilder<bool>(
                   future: isRegistered(username),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator(); // Display a loading indicator while fetching data
+                      return const CircularProgressIndicator(); // Display a loading indicator while fetching data
                     } else if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
                     } else {
                       bool RegistrationStatus = snapshot.data ?? false;
                       if (RegistrationStatus) {
-                        return registeredContainer();
+                        return const registeredContainer();
                       } else {
-                        return notRegisteredContainer();
+                        return const notRegisteredContainer();
                       }
                     }
                   }),
-              SizedBox(height: 25),
-              infoCard(),
-              SizedBox(height: 25),
-              homePageCard(),
+              const SizedBox(height: 25),
+              const infoCard(),
+              const SizedBox(height: 25),
+              const homePageCard(),
             ],
           ),
         ),
@@ -149,7 +149,7 @@ class homePageCard extends StatelessWidget {
             onTap: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RegistrationDetails()),
+                MaterialPageRoute(builder: (context) => const RegistrationDetails()),
               )
             },
             child: Container(
@@ -183,7 +183,7 @@ class homePageCard extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FeeStructurePage()),
+                MaterialPageRoute(builder: (context) => const FeeStructurePage()),
               );
             },
             child: Container(
@@ -385,7 +385,7 @@ class startButton extends StatelessWidget {
           // Button click action
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PersonalDetails()),
+            MaterialPageRoute(builder: (context) => const PersonalDetails()),
           );
         },
         style: ButtonStyle(

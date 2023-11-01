@@ -29,7 +29,7 @@ class _RegistrationDetails extends State<RegistrationDetails> {
   Widget build(BuildContext context) {
     final String username = context.watch<UserProvider>().username;
 
-    final colorScheme = const ColorScheme(
+    const colorScheme = ColorScheme(
       primary: Colors.blue,
       secondary: Colors.teal,
       background: Colors.white,
@@ -45,7 +45,7 @@ class _RegistrationDetails extends State<RegistrationDetails> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Your Registration Details"),
+        title: const Text("Your Registration Details"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -55,7 +55,7 @@ class _RegistrationDetails extends State<RegistrationDetails> {
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // While the Future is still running (loading state)
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 // If there's an error during the Future execution
                 return Text('Error: ${snapshot.error}');
@@ -97,7 +97,7 @@ class _RegistrationDetails extends State<RegistrationDetails> {
                             padding: const EdgeInsets.only(top: 15, bottom: 15),
                             child: Container(
                               alignment: Alignment.center,
-                              child: Text(
+                              child: const Text(
                                 "Your Details",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
@@ -116,72 +116,72 @@ class _RegistrationDetails extends State<RegistrationDetails> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Name:",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         '$studentName',
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Student Number:",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         '$studentNumber',
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Date of Birth:",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         '$date_of_birth',
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Mobile Number:",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         '$studentMobile',
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 10),
+                                  const SizedBox(height: 10),
                                 ],
                               ),
                             ),
@@ -189,7 +189,7 @@ class _RegistrationDetails extends State<RegistrationDetails> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Card(
                       // Set the color scheme.
                       color: colorScheme.surface,
@@ -207,7 +207,7 @@ class _RegistrationDetails extends State<RegistrationDetails> {
                             ),
                             child: Container(
                               alignment: Alignment.center,
-                              child: Text(
+                              child: const Text(
                                 "Semester Detail",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
@@ -226,72 +226,72 @@ class _RegistrationDetails extends State<RegistrationDetails> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Semester Name:",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         '$semesterName',
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Programme:",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         '$programme',
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Year:",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         '$year',
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Semester:",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         '$semester',
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                 ],
                               ),
                             ),
@@ -299,7 +299,7 @@ class _RegistrationDetails extends State<RegistrationDetails> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Card(
                       // Set the color scheme.
                       color: colorScheme.surface,
@@ -317,7 +317,7 @@ class _RegistrationDetails extends State<RegistrationDetails> {
                             ),
                             child: Container(
                               alignment: Alignment.center,
-                              child: Text(
+                              child: const Text(
                                 "Parents Detail",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
@@ -336,72 +336,72 @@ class _RegistrationDetails extends State<RegistrationDetails> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Parent Name:",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         '$parentName',
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Email ID:",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         '$parentEmailID',
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Current Address:",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         '$parentAddress',
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Mobile Number:",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         '$parentMobile',
-                                        style: TextStyle(fontSize: 14),
+                                        style: const TextStyle(fontSize: 14),
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                 ],
                               ),
                             ),
@@ -409,7 +409,7 @@ class _RegistrationDetails extends State<RegistrationDetails> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 );
               }

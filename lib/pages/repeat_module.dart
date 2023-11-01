@@ -3,6 +3,8 @@ import 'add_module.dart';
 import 'payment_section.dart';
 
 class RepeatModule extends StatefulWidget {
+  const RepeatModule({super.key});
+
   @override
   _RepeatModuleState createState() => _RepeatModuleState();
 }
@@ -83,12 +85,12 @@ class _RepeatModuleState extends State<RepeatModule> {
               Center(
                 child: SizedBox(
                   width: 105,
-                  height: 45,
+                  height: 44,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AddModule()),
+                        MaterialPageRoute(builder: (context) => const AddModule()),
                       ).then((value) {
                         setState(() {
                           if (value != null) {
@@ -98,12 +100,12 @@ class _RepeatModuleState extends State<RepeatModule> {
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: const Color(
+                      backgroundColor: const Color(
                           0xFFFF6600), // Set button color to #FF6600
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                     ),
                     child: const Text(
                       'Add',
@@ -125,15 +127,15 @@ class _RepeatModuleState extends State<RepeatModule> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PaymentSection()),
+                            builder: (context) => const PaymentSection()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xFFFF6600), // Set button color to #FF6600
+                      backgroundColor: const Color(0xFFFF6600), // Set button color to #FF6600
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                     ),
                     child: const Text(
                       'Next',

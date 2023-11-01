@@ -32,13 +32,13 @@ class _MyWidgetState extends State<MyHomePage> {
   AppBar _getAppBar(int selectedIndex) {
     switch (selectedIndex) {
       case 0:
-        return AppBar(title: Text('Home Page'));
+        return AppBar(title: const Text('Home Page'));
       case 1:
-        return AppBar(title: Text('Receipt Page'));
+        return AppBar(title: const Text('Receipt Page'));
       case 2:
-        return AppBar(title: Text('Info Page'));
+        return AppBar(title: const Text('Info Page'));
       default:
-        return AppBar(title: Text('Default App Bar'));
+        return AppBar(title: const Text('Default App Bar'));
     }
   }
 

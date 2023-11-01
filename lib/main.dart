@@ -11,7 +11,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: userProvider.isLoggedIn ? MyHomePage() : Login(),
+      home: userProvider.isLoggedIn ? const MyHomePage() : const Login(),
       theme: lightMode,
     );
   }

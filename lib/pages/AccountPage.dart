@@ -8,7 +8,7 @@ class AccountPage extends StatelessWidget {
   final String CID;
   final String imageUrl; // You can use this for the student's profile picture
 
-  AccountPage({
+  const AccountPage({super.key, 
     required this.studentName,
     required this.studentID,
     required this.Department,
@@ -21,7 +21,7 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Account'),
+        title: const Text('My Account'),
       ),
       body: Center(
         child: Column(
@@ -33,25 +33,25 @@ class AccountPage extends StatelessWidget {
               radius: 60,
               backgroundImage: NetworkImage(imageUrl), // or AssetImage for a local image
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Student's Name and ID
             Text(
-              '$studentName',
-              style: TextStyle(
+              studentName,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              '$email',
-              style: TextStyle(
+              email,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Other Student Information
             Center(
@@ -60,28 +60,28 @@ class AccountPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   ListTile(
-                    leading: Icon(Icons.email),
+                    leading: const Icon(Icons.email),
                     title: Text(
                       'Email: $email',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                       ),
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.image_aspect_ratio),
+                    leading: const Icon(Icons.image_aspect_ratio),
                     title: Text(
                       'CID: $CID',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                       ),
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.school),
+                    leading: const Icon(Icons.school),
                     title: Text(
                       'Department: $Department',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                       ),
                     ),

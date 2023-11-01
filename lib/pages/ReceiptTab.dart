@@ -1,30 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:semester_registration_app/models/FetchPaymentDetailModel.dart';
+import 'package:semester_registration_app/provider/user_provider.dart';
+import '../src/payment_detail.dart';
 
 class ReceiptPage extends StatelessWidget {
   const ReceiptPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(
-          top: 15,
-          right: 20,
-          left: 20,
-          bottom: 15,
-        ),
-        child: Card(
-          child: Column(
-            children: [
-              Donwload(),
-              ReceitpInfo(),
-              DisplayFees(),
-              JournalNumber(),
-            ],
-          ),
+    final String username = context.watch<UserProvider>().username;
+    return Scaffold(
+        body: Padding(
+      padding: const EdgeInsets.only(
+        top: 15,
+        right: 20,
+        left: 20,
+        bottom: 15,
+      ),
+      // child: FutureBuilder<String>(
+      //     future: getPaymentDetail(username),
+      //     builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+      //       if (snapshot.connectionState == ConnectionState.waiting) {
+      //         // While the Future is still running (loading state)
+      //         return const Center(child: CircularProgressIndicator());
+      //       } else if (snapshot.hasError) {
+      //         // If there's an error during the Future execution
+      //         return Text('Error: ${snapshot.error}');
+      //       } else {
+      //         final apiResponse = snapshot.data!;
+      //         final paymentData = parsePaymentData(apiResponse);
+      //       }
+      //     }
+      // ),
+      child: Card(
+        child: Column(
+          children: [
+            Donwload(),
+            ReceitpInfo(),
+            DisplayFees(),
+            JournalNumber(),
+          ],
         ),
       ),
-    );
+    ));
   }
 }
 

@@ -20,8 +20,8 @@ class InfoPage extends StatelessWidget {
               ),
 
               // Brief Description
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(
                   'Welcome to the Semester Registration App!',
                   style: TextStyle(
@@ -31,14 +31,14 @@ class InfoPage extends StatelessWidget {
                 ),
               ),
 
-              Text(
+              const Text(
                 'Our app simplifies the semester registration process, making it easy for students to select and enroll in their desired courses.',
                 style: TextStyle(fontSize: 16),
               ),
 
               // Mission and Vision
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(
                   'Mission and Vision',
                   style: TextStyle(
@@ -48,20 +48,20 @@ class InfoPage extends StatelessWidget {
                 ),
               ),
 
-              Text(
+              const Text(
                 'Our mission is to provide students with a seamless and efficient semester registration experience, '
                 'enabling them to focus on their academic journey.',
                 style: TextStyle(fontSize: 16),
               ),
-              Text(
+              const Text(
                 'We envision a future where students can register for their courses with ease, '
                 'ensuring they make the most of their college experience.',
                 style: TextStyle(fontSize: 16),
               ),
 
               // Team Members
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(
                   'Team Members',
                   style: TextStyle(
@@ -72,7 +72,7 @@ class InfoPage extends StatelessWidget {
               ),
 
               // List of Team Members
-              Column(
+              const Column(
                 children: <Widget>[
                   TeamMemberCard(
                     name: 'John Doe',
@@ -100,15 +100,15 @@ class TeamMemberCard extends StatelessWidget {
   final String name;
   final String role;
 
-  TeamMemberCard({required this.name, required this.role});
+  const TeamMemberCard({super.key, required this.name, required this.role});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 3,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
-        leading: Icon(Icons.person),
+        leading: const Icon(Icons.person),
         title: Text(name),
         subtitle: Text(role),
       ),

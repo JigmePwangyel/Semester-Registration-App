@@ -13,7 +13,7 @@ const List<String> hostelType = [
 ];
 
 class PersonalDetails extends StatefulWidget {
-  PersonalDetails({Key? key}) : super(key: key);
+  const PersonalDetails({Key? key}) : super(key: key);
 
   @override
   _PersonalDetailsState createState() => _PersonalDetailsState();
@@ -32,9 +32,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(0, 40, 168, 1),
+        backgroundColor: const Color.fromRGBO(0, 40, 168, 1),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -75,7 +75,7 @@ class MyCustomForm extends StatefulWidget {
   final TextEditingController scholarshipTypeController; // Updated
   String selectedHostelType; // Updated
 
-  MyCustomForm({
+  MyCustomForm({super.key, 
     required this.studentNameController,
     required this.studentNumberController,
     required this.mobileNumberController,
@@ -124,32 +124,32 @@ class _MyCustomFormState extends State<MyCustomForm> {
             ],
           ),
         ),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         buildTextField(
           label: 'Student Name',
           controller: widget.studentNameController,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         buildTextField(
           label: 'Student Number',
           controller: widget.studentNumberController,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         buildTextField(
           label: 'Mobile Number',
           controller: widget.mobileNumberController,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         buildTextField(
           label: 'Email ID',
           controller: widget.emailController,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         buildTextField(
           label: 'Scholarship Type',
           controller: widget.scholarshipTypeController,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         buildDropdownMenu(
           label: 'Hostel Type',
           items: hostelType,
@@ -160,9 +160,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
             });
           },
         ),
-        SizedBox(height: 60),
+        const SizedBox(height: 60),
         Center(
-          child: Container(
+          child: SizedBox(
             width: 105,
             height: 45,
             child: ElevatedButton(
@@ -187,7 +187,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return ParentsDetails();
+                      return const ParentsDetails();
                     },
                   ),
                 );
@@ -203,7 +203,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                           5), // Adjust the border radius as needed
                     ),
                   )),
-              child: Text(
+              child: const Text(
                 'Next',
                 style: TextStyle(fontSize: 18),
               ),
@@ -221,10 +221,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 16)),
+        Text(label, style: const TextStyle(fontSize: 16)),
         TextField(
           controller: controller,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),
         ),
@@ -241,7 +241,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 16)),
+        Text(label, style: const TextStyle(fontSize: 16)),
         DropdownMenu<String>(
           initialSelection: selectedItem,
           onSelected: (String? value) {

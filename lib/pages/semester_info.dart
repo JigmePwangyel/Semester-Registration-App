@@ -24,14 +24,8 @@ const List<String> semesters = [
   '10th',
 ];
 
-void main() {
-  runApp(MaterialApp(
-    home: SemesterDetails(),
-  ));
-}
-
 class SemesterDetails extends StatefulWidget {
-  SemesterDetails({Key? key}) : super(key: key);
+  const SemesterDetails({Key? key}) : super(key: key);
 
   @override
   _SemesterDetailsState createState() => _SemesterDetailsState();
@@ -46,9 +40,9 @@ class _SemesterDetailsState extends State<SemesterDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(0, 40, 168, 1),
+        backgroundColor: const Color.fromRGBO(0, 40, 168, 1),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -79,7 +73,7 @@ class MyCustomForm extends StatefulWidget {
   String selectedYear;
   String selectedSemester;
 
-  MyCustomForm({
+  MyCustomForm({super.key, 
     required this.programController,
     required this.selectedYear,
     required this.selectedSemester,
@@ -125,12 +119,12 @@ class _MyCustomFormState extends State<MyCustomForm> {
             ],
           ),
         ),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         buildTextField(
           label: 'Program',
           controller: widget.programController,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         buildDropdownMenu(
           label: 'Year',
           items: years,
@@ -141,7 +135,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
             });
           },
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         buildDropdownMenu(
           label: 'Semester',
           items: semesters,
@@ -152,9 +146,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
             });
           },
         ),
-        SizedBox(height: 60),
+        const SizedBox(height: 60),
         Center(
-          child: Container(
+          child: SizedBox(
             width: 105,
             height: 45,
             child: ElevatedButton(
@@ -171,7 +165,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return RepeatModule();
+                      return const RepeatModule();
                     },
                   ),
                 );
@@ -186,7 +180,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   ),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 'Next',
                 style: TextStyle(fontSize: 18),
               ),
@@ -204,10 +198,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 16)),
+        Text(label, style: const TextStyle(fontSize: 16)),
         TextField(
           controller: controller,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),
         ),
@@ -224,7 +218,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 16)),
+        Text(label, style: const TextStyle(fontSize: 16)),
         DropdownMenu<String>(
           initialSelection: selectedItem,
           onSelected: (String? value) {
