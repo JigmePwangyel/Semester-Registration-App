@@ -8,7 +8,7 @@ class AddModule extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         title: const Text("Register"),
+        title: const Text("Register"),
         centerTitle: true,
         backgroundColor: const Color.fromRGBO(0, 40, 168, 1),
         leading: IconButton(
@@ -47,7 +47,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -131,8 +131,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
   bool isInputValid() {
     return !isInvalid &&
         isSuggestionValid(moduleNameController.text, moduleMap.keys.toList()) &&
-        isSuggestionValid(moduleCodeController.text, moduleMap.values.toList()) &&
-        isSuggestionValid(statusController.text, ["First Repeat", "Second Repeat"]);
+        isSuggestionValid(
+            moduleCodeController.text, moduleMap.values.toList()) &&
+        isSuggestionValid(
+            statusController.text, ["First Repeat", "Second Repeat"]);
   }
 
   bool isSuggestionValid(String input, List<String> suggestions) {
@@ -153,11 +155,13 @@ class _MyCustomFormState extends State<MyCustomForm> {
           key: GlobalKey<AutoCompleteTextFieldState<String>>(),
           clearOnSubmit: false,
           suggestions: suggestions,
-          style: const TextStyle(fontSize: 16),
-          decoration: const InputDecoration(
+          controller: controller,
+          style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 40, 168, 1)),
+          decoration: InputDecoration(
+            contentPadding:
+                EdgeInsets.symmetric(vertical: 1.0, horizontal: 8.0),
             border: OutlineInputBorder(),
           ),
-          controller: controller,
           itemFilter: (item, query) {
             return item.toLowerCase().startsWith(query.toLowerCase());
           },
@@ -166,7 +170,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
           },
           itemSubmitted: (item) {
             controller.text = item;
-            isInvalid = false; // Reset isInvalid when a valid suggestion is selected
+            isInvalid =
+                false; // Reset isInvalid when a valid suggestion is selected
             if (onChanged != null) {
               onChanged(item);
             }
@@ -182,8 +187,3 @@ class _MyCustomFormState extends State<MyCustomForm> {
   }
 }
 
-void main() {
-  runApp(const MaterialApp(
-    home: AddModule(),
-  ));
-}
