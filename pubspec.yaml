@@ -41,6 +41,11 @@ dependencies:
   provider: ^6.0.5
   fluttertoast: ^8.2.2
   image_picker: ^1.0.4
+  htmltopdfwidgets: ^0.0.9+1
+  path_provider: ^2.1.1
+  permission_handler: ^11.0.1
+  lecle_downloads_path_provider: ^0.0.2+8
+  pdf: ^3.10.4
 
 dev_dependencies:
   flutter_test:
@@ -51,7 +56,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
