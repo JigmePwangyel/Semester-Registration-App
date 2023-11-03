@@ -38,10 +38,10 @@ class _HomePageState extends State<HomePage> {
                     final username = snapshot.data ??
                         'No Name'; // Provide a default value if data is null
                     final firstname = username.split(' ').first;
-                    return Text('Welcome back $firstname 👋',
+                    return Text('Welcome back, $firstname 👋',
                         style: const TextStyle(
                           fontSize: 23,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         ));
                   }
                 },
@@ -145,11 +145,12 @@ class homePageCard extends StatelessWidget {
               ),
             ],
           ),
-          GestureDetector(
+          InkWell(
             onTap: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const RegistrationDetails()),
+                MaterialPageRoute(
+                    builder: (context) => const RegistrationDetails()),
               )
             },
             child: Container(
@@ -158,7 +159,7 @@ class homePageCard extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.account_box,
-                    color: Color.fromRGBO(0, 128, 255, 0.54),
+                    color: Color.fromRGBO(55, 81, 169, 1),
                   ),
                   SizedBox(
                     width: 8.0,
@@ -179,11 +180,12 @@ class homePageCard extends StatelessWidget {
               ),
             ),
           ),
-          GestureDetector(
+          InkWell(
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const FeeStructurePage()),
+                MaterialPageRoute(
+                    builder: (context) => const FeeStructurePage()),
               );
             },
             child: Container(
@@ -192,7 +194,7 @@ class homePageCard extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.monetization_on,
-                    color: Color.fromRGBO(0, 128, 255, 0.54),
+                    color: Color.fromRGBO(55, 81, 169, 1),
                   ),
                   SizedBox(
                     width: 8.0,
@@ -314,7 +316,7 @@ class infoCard extends StatelessWidget {
               children: [
                 Icon(
                   Icons.date_range,
-                  color: Color.fromRGBO(0, 128, 255, 0.54),
+                  color: Color.fromRGBO(55, 81, 169, 1),
                 ),
                 SizedBox(height: 10),
                 Text(
@@ -346,7 +348,7 @@ class infoCard extends StatelessWidget {
               children: [
                 Icon(
                   Icons.location_on,
-                  color: Color.fromRGBO(0, 128, 255, 0.54),
+                  color: Color.fromRGBO(55, 81, 169, 1),
                 ),
                 SizedBox(height: 10),
                 Text(
@@ -385,7 +387,7 @@ class startButton extends StatelessWidget {
           // Button click action
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const PersonalDetails()),
+            MaterialPageRoute(builder: (context) => PersonalDetails()),
           );
         },
         style: ButtonStyle(

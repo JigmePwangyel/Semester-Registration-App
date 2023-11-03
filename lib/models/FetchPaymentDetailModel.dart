@@ -1,65 +1,103 @@
-import 'dart:convert';
 
-class PaymentData {
+class PaymentResponse {
+  final List<PaymentDetail> paymentDetail;
   final String scholarshipType;
-  final List<PaymentDetail>? paymentDetail;
-  final List<FeeBreakdown>? feeBreakdown;
+  final List<dynamic> feeBreakdown;
+  final int totalFee;
 
-  PaymentData({
+  PaymentResponse({
     required this.scholarshipType,
-    this.paymentDetail,
-    this.feeBreakdown,
+    required this.feeBreakdown,
+    required this.paymentDetail,
+    required this.totalFee,
   });
+
+  factory PaymentResponse.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> paymentDetailData = json['paymentDetail'];
+    final List<dynamic> feeBreakdownData = json['feeBreakdown'];
+    final String scholarshipType = json['scholarshipType'];
+    final int totalFee = json['totalFee'];
+    print(feeBreakdownData);
+    final List<PaymentDetail> paymentDetail =
+        paymentDetailData.map((item) => PaymentDetail.fromJson(item)).toList();
+
+    return PaymentResponse(
+      scholarshipType: scholarshipType,
+      feeBreakdown: feeBreakdownData,
+      totalFee: totalFee,
+      paymentDetail: paymentDetail,
+    );
+  }
 }
 
 class FeeBreakdown {
-  final String? module_code;
-  final int? amount;
+  final int? tuition;
+  final int? hostel;
 
-  FeeBreakdown({this.module_code, this.amount});
+  FeeBreakdown({
+    required this.tuition,
+    required this.hostel,
+  });
+
+  factory FeeBreakdown.fromJson(Map<String, dynamic> json) {
+    return FeeBreakdown(
+      tuition: json['Tuition'],
+      hostel: json['Hostel'],
+    );
+  }
 }
 
 class PaymentDetail {
-  final String? payment_date;
+  final String? paymentDate;
   final int? amount;
-  final String? receipt_number;
-  final String? journal_number;
+  final String? receiptNumber;
+  final String? journalNumber;
 
-  PaymentDetail(
-      {this.payment_date,
-      this.amount,
-      this.receipt_number,
-      this.journal_number});
-}
+  PaymentDetail({
+    required this.paymentDate,
+    required this.amount,
+    required this.receiptNumber,
+    required this.journalNumber,
+  });
 
-PaymentData parsePaymentData(String jsonStr) {
-  final jsonData = json.decode(jsonStr);
-  List<FeeBreakdown> feeBreakdown = [];
-  List<PaymentDetail> paymentDetail = [];
-
-  if (jsonData['feeBreakdown'] != null) {
-    feeBreakdown = List<FeeBreakdown>.from(
-      jsonData['feeBreakdown'].map((item) => FeeBreakdown(
-            module_code: item['module_code'],
-            amount: item['amount'],
-          )),
+  factory PaymentDetail.fromJson(Map<String, dynamic> json) {
+    return PaymentDetail(
+      paymentDate: json['payment_date'],
+      amount: json['amount'],
+      receiptNumber: json['receipt_number'],
+      journalNumber: json['journal_number'],
     );
   }
-
-  if (jsonData['paymentDetail'] != null) {
-    paymentDetail = List<PaymentDetail>.from(
-      jsonData['paymentDetail'].map((item) => PaymentDetail(
-            payment_date: item['payment_date'],
-            amount: item['amount'],
-            receipt_number: item['receipt_number'],
-            journal_number: item['journal_number'],
-          )),
-    );
-  }
-
-  return PaymentData(
-    scholarshipType: jsonData['scholarshipType'],
-    feeBreakdown: feeBreakdown,
-    paymentDetail: paymentDetail,
-  );
 }
+
+// class PaymentResponse {
+//   final String scholarshipType;
+//   final List<dynamic> feeBreakdown;
+//   final int totalFee;
+//   final Map<String, dynamic> paymentDetail;
+
+//   PaymentResponse({
+//     required this.scholarshipType,
+//     required this.feeBreakdown,
+//     required this.totalFee,
+//     required this.paymentDetail,
+//   });
+
+//   factory PaymentResponse.fromJson(Map<String, dynamic> json) {
+//     final int totalFee = json['totalFee'];
+
+//     final String scholarshipType = json['scholarshipType'];
+//     final List<dynamic> feeBreakdownData = json['feeBreakdown'];
+
+//     final Map<String, dynamic> paymentDetailData = json['paymentDetail'];
+//     final Map<String, dynamic> paymentDetail =
+//         Map<String, dynamic>.from(paymentDetailData);
+
+//     return PaymentResponse(
+//       scholarshipType: scholarshipType,
+//       feeBreakdown: feeBreakdownData,
+//       totalFee: totalFee,
+//       paymentDetail: paymentDetail,
+//     );
+//   }
+// }

@@ -33,8 +33,8 @@ class _LoginState extends State<Login> {
           children: [
             // Containers for Images
             Container(
-              constraints:
-                  const BoxConstraints(maxHeight: 200, maxWidth: double.infinity),
+              constraints: const BoxConstraints(
+                  maxHeight: 200, maxWidth: double.infinity),
               decoration: BoxDecoration(
                 color: mycolor,
                 borderRadius: const BorderRadius.only(
@@ -54,7 +54,7 @@ class _LoginState extends State<Login> {
 
             Padding(
               padding: const EdgeInsets.only(
-                top: 50,
+                top: 20,
                 bottom: 30,
                 left: 30,
                 right: 30,

@@ -9,7 +9,7 @@ void main() {
   ));
 }
 class SendPaymentInfo extends StatelessWidget {
-  const SendPaymentInfo({Key? key}) : super(key: key);
+  const SendPaymentInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class SendPaymentInfo extends StatelessWidget {
 }
 
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({Key? key}) : super(key: key);
+  const MyCustomForm({super.key});
 
   @override
   _MyCustomFormState createState() => _MyCustomFormState();

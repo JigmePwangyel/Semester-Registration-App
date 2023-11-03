@@ -84,7 +84,6 @@ class _RegistrationDetails extends State<RegistrationDetails> {
                 return Column(
                   children: [
                     Card(
-                      // Set the color scheme.
                       color: colorScheme.surface,
                       // Set the border radius.
                       shape: RoundedRectangleBorder(

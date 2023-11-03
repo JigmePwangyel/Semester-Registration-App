@@ -1,12 +1,15 @@
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../models/FetchPaymentDetailModel.dart';
 
 //To fetch payment details.
-Future<String> getPaymentDetail(String userId) async {
+Future<PaymentResponse> getPaymentDetail(String userId) async {
   final apiUrl =
       'http://192.168.23.159:3000/payment/total-paid/$userId'; // Replace with your API endpoint
   try {
     final response = await http.get(Uri.parse(apiUrl));
-    return response.body;
+    final Map<String, dynamic> jsonData = json.decode(response.body);
+    return PaymentResponse.fromJson(jsonData);
   } catch (e) {
     // Handle any network or request-related errors
     throw Exception('Exception: $e');

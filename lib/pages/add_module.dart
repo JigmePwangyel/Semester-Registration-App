@@ -18,7 +18,7 @@ class AddModule extends StatelessWidget {
           },
         ),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: MyCustomForm(),
       ),
     );
@@ -26,7 +26,7 @@ class AddModule extends StatelessWidget {
 }
 
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({super.key});
+  MyCustomForm({Key? key});
 
   @override
   _MyCustomFormState createState() => _MyCustomFormState();
@@ -39,38 +39,15 @@ class _MyCustomFormState extends State<MyCustomForm> {
   bool isInvalid = false; // Added isInvalid variable
 
   final Map<String, String> moduleMap = {
-    //civil first year
-    "Calculus and Infinite Series": "MAT101",
-    "Introduction to Programming": "CPL101",
-    "Engineering Physics-I": "PHY101",
-    "Engineering Chemistry": "CHE101",
-    "Engineering Graphics": "EGP101",
-    //civil second year
-    "Engineering Mathematics-III": "MAT204",
-    "Fluid Mechanics": "FMH201",
-    "Principles of Surveying-I": "SUR201",
-    "Strength of Materials": "TSM202",
-    "Building Drawing": "BPD202",
-    //civil third year
-    "Enterpreneurship": "EDP101",
-    "Introduction to Research": "PRW301",
-    "Design of Steel Structure-I": "DOS301",
-    "Hydrology": "EVE301",
-    "Structural Mechanics-II": "TSM304",
-    "Soil Mechanics": "FED301",
-    //civil fourth year
-    "Design of Concrete Structures-II": "DOS404",
-    "Hydraulics Structures & Water Power Engineering": "FMH403",
-    "Environmental Engineering-II": "EVE403",
-    "Estimating Costing and Tendering": "BPD403",
-    "Highway Engineering": "HWE401",
-    //"":"",
+    "Human Computer Interaction": "CTE307",
+    "Advanced Web Technology": "CTE306",
+    "Mobile Application Development": "CTE308",
   };
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -121,7 +98,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
           Center(
             child: SizedBox(
               width: 105,
-              height: 44,
+              height: 45,
               child: ElevatedButton(
                 onPressed: () {
                   if (!isInputValid()) {
@@ -178,11 +155,13 @@ class _MyCustomFormState extends State<MyCustomForm> {
           key: GlobalKey<AutoCompleteTextFieldState<String>>(),
           clearOnSubmit: false,
           suggestions: suggestions,
-          style: const TextStyle(fontSize: 16),
-          decoration: const InputDecoration(
+          controller: controller,
+          style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 40, 168, 1)),
+          decoration: InputDecoration(
+            contentPadding:
+                EdgeInsets.symmetric(vertical: 1.0, horizontal: 8.0),
             border: OutlineInputBorder(),
           ),
-          controller: controller,
           itemFilter: (item, query) {
             return item.toLowerCase().startsWith(query.toLowerCase());
           },
@@ -206,10 +185,4 @@ class _MyCustomFormState extends State<MyCustomForm> {
       ],
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: AddModule(),
-  ));
 }
