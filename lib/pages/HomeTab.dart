@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_registration_app/provider/user_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'FeeStructurePage.dart';
 import 'package:semester_registration_app/pages/personal_details.dart';
 import '../src/user_detail.dart';
@@ -16,9 +17,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String? user_name;
 
+  void writeIntoSharedPreferences(String username) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('studentName', username);
+  }
+
   @override
   Widget build(BuildContext context) {
     final String username = context.watch<UserProvider>().username;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -37,6 +44,7 @@ class _HomePageState extends State<HomePage> {
                   } else {
                     final username = snapshot.data ??
                         'No Name'; // Provide a default value if data is null
+                    writeIntoSharedPreferences(username);
                     final firstname = username.split(' ').first;
                     return Text('Welcome back, $firstname 👋',
                         style: const TextStyle(

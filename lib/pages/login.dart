@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_registration_app/pages/MyHomePage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../src/auth_service.dart';
 import '../provider/user_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -128,8 +129,12 @@ class _LoginState extends State<Login> {
                         onPressed: () async {
                           await loginUser(context, username, password);
                           print("isLoggedIn: ${userProvider.isLoggedIn}");
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+
                           if (userProvider.isLoggedIn) {
                             userProvider.setUserName(username);
+                            prefs.setString('username', username);
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const MyHomePage(),

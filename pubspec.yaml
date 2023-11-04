@@ -46,6 +46,10 @@ dependencies:
   permission_handler: ^11.0.1
   lecle_downloads_path_provider: ^0.0.2+8
   pdf: ^3.10.4
+  printing: ^5.11.0
+  shared_preferences: ^2.2.2
+  open_document: ^1.0.7
+  progress_dialog_null_safe: ^1.0.7
 
 dev_dependencies:
   flutter_test:

@@ -1,20 +1,24 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_registration_app/models/FetchPaymentDetailModel.dart';
 import 'package:semester_registration_app/provider/user_provider.dart';
 import '../src/payment_detail.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
+import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
+import 'package:open_document/open_document.dart';
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
-class ReceiptPage extends StatefulWidget {
+class ReceiptPage extends StatelessWidget {
   const ReceiptPage({super.key});
 
   @override
-  State<ReceiptPage> createState() => _ReceiptPageState();
-}
-
-class _ReceiptPageState extends State<ReceiptPage> {
-  @override
   Widget build(BuildContext context) {
     final String username = context.watch<UserProvider>().username;
+
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.only(
@@ -39,6 +43,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
               final paymentDetail = paymentResponse.paymentDetail[0];
               final feeBreakdown = paymentResponse.feeBreakdown;
               final totalFee = paymentResponse.totalFee;
+              final name = username;
 
               return Card(
                 child: Column(
@@ -48,7 +53,8 @@ class _ReceiptPageState extends State<ReceiptPage> {
                         paymentDetail.receiptNumber,
                         paymentDetail.paymentDate,
                         feeBreakdown,
-                        totalFee),
+                        totalFee,
+                        name as String?),
                     ReceitpInfo(
                       receiptNumber: paymentDetail.receiptNumber,
                       paymentDate: paymentDetail.paymentDate,
@@ -64,22 +70,18 @@ class _ReceiptPageState extends State<ReceiptPage> {
   }
 }
 
-class Donwload extends StatefulWidget {
+class Donwload extends StatelessWidget {
   final String? receiptNumber;
   final String? paymentDate;
   List<dynamic>? feeBreakdown;
   int? totalFee;
   String? journalNumber;
+  String? name;
 
   Donwload(this.journalNumber, this.receiptNumber, this.paymentDate,
-      this.feeBreakdown, this.totalFee,
+      this.feeBreakdown, this.totalFee, this.name,
       {super.key});
 
-  @override
-  State<Donwload> createState() => _DonwloadState();
-}
-
-class _DonwloadState extends State<Donwload> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -107,25 +109,20 @@ class _DonwloadState extends State<Donwload> {
         const SizedBox(
           height: 30,
         ),
-        Button(widget.journalNumber, widget.receiptNumber, widget.paymentDate,
-            widget.feeBreakdown, widget.totalFee),
+        Button(journalNumber, receiptNumber, paymentDate, feeBreakdown,
+            totalFee, name),
       ]),
     );
   }
 }
 
-class ReceitpInfo extends StatefulWidget {
+class ReceitpInfo extends StatelessWidget {
   final String? receiptNumber;
   final String? paymentDate;
 
   const ReceitpInfo(
       {super.key, required this.receiptNumber, required this.paymentDate});
 
-  @override
-  State<ReceitpInfo> createState() => _ReceitpInfoState();
-}
-
-class _ReceitpInfoState extends State<ReceitpInfo> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -139,14 +136,14 @@ class _ReceitpInfoState extends State<ReceitpInfo> {
         child: Row(
           children: [
             Text(
-              "Receipt No: #${widget.receiptNumber}",
+              "Receipt No: #$receiptNumber",
               style: const TextStyle(
                 color: Color.fromRGBO(255, 255, 255, 1),
               ),
             ),
             Expanded(
               child: Text(
-                "${widget.paymentDate}",
+                "$paymentDate",
                 style: const TextStyle(
                   color: Color.fromRGBO(255, 255, 255, 1),
                 ),
@@ -166,9 +163,10 @@ class Button extends StatefulWidget {
   final String? paymentDate;
   int? totalFee;
   String? journalNumber;
+  String? name;
 
   Button(this.journalNumber, this.receiptNumber, this.paymentDate,
-      this.feeBreakdown, this.totalFee,
+      this.feeBreakdown, this.totalFee, this.name,
       {super.key});
 
   @override
@@ -176,36 +174,194 @@ class Button extends StatefulWidget {
 }
 
 class _ButtonState extends State<Button> {
-  String generateHtmlTable(List<dynamic>? feeBreakdown) {
-    String htmlTable = """
-      <table class="items-table">
-        <thead>
-          <tr>
-            <th>Sl.No</th>
-            <th>Title</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-      """;
+  //Data for the table
+  List<List<String>> data = [];
+  String? receiptNumber;
+  String? paymentDate;
+  int? totalFee;
+  String? journalNumber;
+  String? name;
 
-    for (var i = 0; i < feeBreakdown!.length; i++) {
-      var item = feeBreakdown[i];
-      var key = item.keys.first;
-      var value = item[key].toString();
+  @override
+  void initState() {
+    super.initState();
+    data = convertToDesiredFormat(widget.feeBreakdown!);
+    receiptNumber = widget.receiptNumber;
+    paymentDate = widget.paymentDate;
+    totalFee = widget.totalFee;
+    journalNumber = widget.journalNumber;
+    name = widget.name;
+  }
 
-      htmlTable += "<tr>";
-      htmlTable += "<td>${i + 1}</td>";
-      htmlTable += "<td>$key</td>";
-      htmlTable += "<td>${item[key].toString()}</td>";
-      htmlTable += "</tr>";
+  //To convert the data to the correct format
+  List<List<String>> convertToDesiredFormat(List<dynamic> initialData) {
+    List<List<String>> desiredFormat = [];
+
+    for (int i = 0; i < initialData.length; i++) {
+      if (i == 0) {
+        desiredFormat.add(["Sl.No", "Title", "Amount"]);
+      }
+      String index = (i + 1).toString();
+      String key = initialData[i].keys.first;
+      String value = initialData[i][key].toString();
+      desiredFormat.add([index, key, value]);
     }
-    // Close the table properly
-    htmlTable += """
-        </tbody>
-      </table>
-    """;
-    return htmlTable;
+
+    return desiredFormat;
+  }
+
+  //For downloading pdf
+  Future makePdf() async {
+    final font = await PdfGoogleFonts.robotoMedium();
+    final pdf = pw.Document();
+    final ByteData bytes = await rootBundle.load('assets/cst.png');
+    final Uint8List byteList = bytes.buffer.asUint8List();
+
+    //Progress to indicate pdf generation
+    ProgressDialog pr;
+
+    pdf.addPage(
+      pw.Page(
+        margin: const pw.EdgeInsets.only(
+          left: 40,
+          right: 40,
+          top: 30,
+        ),
+        pageFormat: PdfPageFormat.a4,
+        build: (context) {
+          return pw.Column(
+            children: [
+              pw.Container(
+                child: pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          "Money Receipt",
+                          style: pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold,
+                            fontSize: 20,
+                            font: font,
+                          ),
+                        ),
+                        pw.SizedBox(
+                          height: 20,
+                        ),
+                        pw.Text(
+                          "Date: $paymentDate",
+                          style: pw.TextStyle(
+                            fontSize: 17,
+                            font: font,
+                          ),
+                        ),
+                        pw.Text("Receipt Number: #$receiptNumber",
+                            style: pw.TextStyle(
+                              fontSize: 18,
+                              font: font,
+                            )),
+                        pw.Text("Journal: MBOB: $journalNumber",
+                            style: pw.TextStyle(
+                              fontSize: 18,
+                              font: font,
+                            )),
+                        pw.SizedBox(
+                          height: 15,
+                        ),
+                        pw.Text("Student Number: $name",
+                            style: pw.TextStyle(
+                              fontSize: 18,
+                              font: font,
+                            )),
+                      ],
+                    ),
+                    pw.Image(
+                      pw.MemoryImage(byteList),
+                      width: 115,
+                      height: 115,
+                    ),
+                  ],
+                ),
+              ),
+              pw.SizedBox(height: 60),
+              pw.TableHelper.fromTextArray(
+                border: pw.TableBorder.all(),
+                data: data,
+              ),
+              pw.SizedBox(
+                height: 15,
+              ),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  pw.Text(
+                    "Total Amount: Nu.$totalFee",
+                    style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold,
+                      fontSize: 20,
+                      font: font,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    //Progress Dialog
+    pr = ProgressDialog(context);
+    pr.style(
+        message: 'Downnloading Receipt',
+        progressWidget: CircularProgressIndicator(),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w600));
+    await pr.show(); // Show the progress dialog
+
+    String? downloadsDirectoryPath =
+        (await DownloadsPath.downloadsDirectory())?.path;
+    final baseFilePath = '$downloadsDirectoryPath/receipt';
+
+    int fileCounter = 0;
+    String filePath;
+
+    while (true) {
+      try {
+        if (fileCounter == 0) {
+          filePath = "$baseFilePath($fileCounter).pdf";
+          final file = File(filePath);
+          await file.writeAsBytes(await pdf.save());
+
+          await pr.hide(); // Hide the progress dialog
+
+          // Open the PDF document using open_document
+          try {
+            await OpenDocument.openDocument(filePath: filePath);
+          } catch (e) {
+            print('Error opening the document: $e');
+          }
+
+          break;
+        } else {
+          filePath = "$baseFilePath($fileCounter).pdf";
+          final file = File(filePath);
+          await file.writeAsBytes(await pdf.save());
+
+          await pr.hide(); // Hide the progress dialog
+          // Open the PDF document using open_document
+          try {
+            await OpenDocument.openDocument(filePath: filePath);
+          } catch (e) {
+            print('Error opening the document: $e');
+          }
+          break;
+        }
+      } catch (e) {
+        fileCounter++;
+      }
+    }
   }
 
   @override
@@ -215,111 +371,7 @@ class _ButtonState extends State<Button> {
       width: 200,
       child: ElevatedButton(
         onPressed: () async {
-          print(generateHtmlTable(widget.feeBreakdown));
-          String htmlTable = generateHtmlTable(widget.feeBreakdown!);
-          final String receipt = """
-              <!DOCTYPE html>
-              <html>
-                <head>
-                  <style>
-                    body {
-                      font-family: Arial, sans-serif;
-                      background-color: #f2f2f2;
-                    }
-
-                    .receipt {
-                      max-width: 600px;
-                      margin: 0 auto;
-                      background-color: #fff;
-                      border: 2px solid #333;
-                      border-radius: 10px;
-                      padding: 20px;
-                      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                    }
-
-                    .header {
-                      text-align: center;
-                      margin-bottom: 20px;
-                    }
-
-                    .header img {
-                      padding-top: 15px;
-                      width: 100px;
-                      height: 100px;
-                    }
-
-                    .title {
-                      font-size: 24px;
-                      margin-bottom: 10px;
-                    }
-
-                    .info {
-                      font-size: 16px;
-                      display: flex;
-                      justify-content: space-between;
-                    }
-
-                    .details {
-                      margin-top: 20px;
-                    }
-
-                    .items-table {
-                      width: 100%;
-                      border-collapse: collapse;
-                      margin-top: 20px;
-                    }
-
-                    .items-table th,
-                    .items-table td {
-                      border: 1px solid #ddd;
-                      padding: 10px;
-                      text-align: left;
-                    }
-
-                    .items-table th {
-                      background-color: #f2f2f2;
-                    }
-
-                    .total {
-                      margin-top: 20px;
-                      text-align: right;
-                      font-size: 18px;
-                    }
-                  </style>
-                </head>
-                <body>
-                  <div class="receipt">
-                    <div class="info">
-                      <div class="receipt-info">
-                        <p class="title">Money Receipt</p>
-                        <p>Date: ${widget.paymentDate}</p>
-                        <p>Receipt Number: #${widget.receiptNumber}</p>
-                        <p>Journal Number: ${widget.journalNumber}</p>
-                      </div>
-                      <div class="header">
-                        <img src="cst.png" alt="Your Company Logo" />
-                      </div>
-                    </div>
-                    <div class="details">
-                      <p>Student Number: $username </p>
-                    </div>
-                    $htmlTable
-                    <div class="total">
-                      <p>Total Amount: Nu.${widget.totalFee}</p>
-                    </div>
-                  </div>
-                </body>
-              </html>
-            """;
-
-          // //Receipt receipt2 = Receipt(receipt);
-
-          // try {
-          //   await receipt2.createDocument();
-          //   print('PDF document created successfully');
-          // } catch (e) {
-          //   print('Failed to create PDF document: $e');
-          // }
+          makePdf();
         },
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(
@@ -345,25 +397,20 @@ class _ButtonState extends State<Button> {
   }
 }
 
-class DisplayFees extends StatefulWidget {
+class DisplayFees extends StatelessWidget {
   List<dynamic>? feeBreakdown;
   int? totalFee;
   DisplayFees(this.feeBreakdown, this.totalFee, {super.key});
 
   @override
-  State<DisplayFees> createState() => _DisplayFeesState();
-}
-
-class _DisplayFeesState extends State<DisplayFees> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       child: Expanded(
         child: ListView.builder(
-          itemCount: widget.feeBreakdown!.length + 1,
+          itemCount: feeBreakdown!.length + 1,
           itemBuilder: (context, index) {
-            if (index < widget.feeBreakdown!.length) {
-              var item = widget.feeBreakdown![index];
+            if (index < feeBreakdown!.length) {
+              var item = feeBreakdown![index];
               var key = item.keys.first;
               var value = item[key].toString();
 
@@ -384,7 +431,7 @@ class _DisplayFeesState extends State<DisplayFees> {
                       ),
                     ),
                     trailing: Text(
-                      "Nu.${widget.totalFee}",
+                      "Nu.$totalFee",
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -401,15 +448,10 @@ class _DisplayFeesState extends State<DisplayFees> {
   }
 }
 
-class JournalNumber extends StatefulWidget {
+class JournalNumber extends StatelessWidget {
   String? journalNumber;
-  JournalNumber({super.key, required this.journalNumber});
+  JournalNumber({required this.journalNumber});
 
-  @override
-  State<JournalNumber> createState() => _JournalNumberState();
-}
-
-class _JournalNumberState extends State<JournalNumber> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -419,7 +461,7 @@ class _JournalNumberState extends State<JournalNumber> {
           Padding(
             padding: const EdgeInsets.only(bottom: 5, right: 10),
             child: Text(
-              "Journal Number: ${widget.journalNumber}",
+              "Journal Number: $journalNumber",
               style:
                   const TextStyle(color: Color.fromARGB(255, 0x7D, 0x7D, 0x7E)),
             ),
