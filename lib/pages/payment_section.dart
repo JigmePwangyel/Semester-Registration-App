@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:semester_registration_app/pages/MyHomePage.dart';
+import 'package:semester_registration_app/provider/form_provider.dart';
+import 'package:semester_registration_app/provider/registration_provider.dart';
 
 class PaymentSection extends StatelessWidget {
-  const PaymentSection({Key? key});
+  const PaymentSection({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +19,9 @@ class PaymentSection extends StatelessWidget {
         title: const Text("Register"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: CardContainer1(),
         ),
       ),
@@ -24,6 +30,8 @@ class PaymentSection extends StatelessWidget {
 }
 
 class CardContainer1 extends StatelessWidget {
+  const CardContainer1({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,11 +41,11 @@ class CardContainer1 extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(0),
-              child: Download(),
+              child: const Download(),
             ),
-            DisplayFees(),
+            const DisplayFees(),
             const SizedBox(height: 30),
-            SendPaymentInfo(),
+            const SendPaymentInfo(),
           ],
         ),
       ),
@@ -46,7 +54,7 @@ class CardContainer1 extends StatelessWidget {
 }
 
 class Download extends StatelessWidget {
-  const Download({Key? key});
+  const Download({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +62,15 @@ class Download extends StatelessWidget {
       height: 200,
       color: const Color.fromRGBO(0, 40, 168, 1),
       alignment: Alignment.center,
-      child: Column(
+      child: const Column(
         children: [
-          const SizedBox(height: 15),
-          const Icon(
+          SizedBox(height: 15),
+          Icon(
             Icons.info,
             size: 40,
             color: Colors.white,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           Center(
             child: Text(
               "Transfer fees to account no: xxxxxxxxx \n\n In the remark, please enter your student number",
@@ -81,7 +89,7 @@ class Download extends StatelessWidget {
 }
 
 class DisplayFees extends StatelessWidget {
-  const DisplayFees({Key? key});
+  const DisplayFees({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +131,7 @@ class DisplayFees extends StatelessWidget {
 }
 
 class SendPaymentInfo extends StatefulWidget {
-  const SendPaymentInfo({Key? key}) : super(key: key);
+  const SendPaymentInfo({super.key});
 
   @override
   _SendPaymentInfoState createState() => _SendPaymentInfoState();
@@ -168,12 +176,12 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyHomePage(),
+                      builder: (context) => const MyHomePage(),
                     ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: const Color.fromRGBO(255, 102, 0, 1.0),
+                  backgroundColor: const Color.fromRGBO(255, 102, 0, 1.0),
                   minimumSize: const Size(150, 40),
                 ),
                 child: const Text('Back to Home'),
@@ -187,6 +195,11 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
 
   @override
   Widget build(BuildContext context) {
+    //Provider to store details
+    StudentRegistrationProvider studentDataProvider =
+        Provider.of<StudentRegistrationProvider>(context, listen: false);
+    final String formType = context.watch<FormProvider>().formType;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -199,7 +212,7 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
         if (errorText != null)
           Text(
             errorText!,
-            style: TextStyle(color: Colors.red),
+            style: const TextStyle(color: Colors.red),
           ),
         const SizedBox(height: 40),
         Center(
@@ -210,6 +223,20 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
               onPressed: () {
                 if (validateJournalNumber()) {
                   showSuccessDialog(context);
+                }
+                final journalNUmber = moduleCodeController.text;
+
+                studentDataProvider.journalNUmber = journalNUmber;
+                studentDataProvider.setSelectedImage(selectedImage);
+                studentDataProvider.printThings();
+
+                /**
+               * Handle Form Submission
+               */
+                if (formType == "SelfFunding") {
+                  //For Self Funding
+                } else {
+                  //Will have repeat modules
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -235,7 +262,7 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 40),
-        Text('Add Screenshot', style: const TextStyle(fontSize: 16)),
+        const Text('Add Screenshot', style: TextStyle(fontSize: 16)),
         SizedBox(
           height: 40,
           width: 200,
@@ -267,6 +294,10 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
         Text(label, style: const TextStyle(fontSize: 16)),
         TextField(
           style: const TextStyle(fontSize: 16),
+          keyboardType: TextInputType.number, // Set the keyboard type to number
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly, // Allow only digits
+          ],
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),

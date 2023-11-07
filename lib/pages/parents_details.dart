@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:semester_registration_app/pages/semester_info.dart';
+import 'package:semester_registration_app/provider/registration_provider.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: ParentsDetails(),
   ));
 }
 
 class ParentsDetails extends StatefulWidget {
+  const ParentsDetails({super.key});
+
   @override
   _ParentsDetailsState createState() => _ParentsDetailsState();
 }
@@ -24,18 +28,18 @@ class _ParentsDetailsState extends State<ParentsDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(0, 40, 168, 1),
+        backgroundColor: const Color.fromRGBO(0, 40, 168, 1),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        title: Text("Parents' Details"),
+        title: const Text("Parents' Details"),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(25.0),
+          padding: const EdgeInsets.all(25.0),
           child: MyCustomForm(
             formKey: _formKey,
             parentNameController: parentNameController,
@@ -56,7 +60,8 @@ class MyCustomForm extends StatefulWidget {
   final TextEditingController parentAddressController;
   final GlobalKey<FormState> formKey;
 
-  MyCustomForm({
+  const MyCustomForm({
+    super.key,
     required this.parentNameController,
     required this.parentMobileController,
     required this.parentEmailController,
@@ -71,6 +76,10 @@ class MyCustomForm extends StatefulWidget {
 class _MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
+    //Provider to store Parent Details
+    StudentRegistrationProvider studentDataProvider =
+        Provider.of<StudentRegistrationProvider>(context, listen: false);
+
     return Form(
       key: widget.formKey,
       child: Column(
@@ -85,7 +94,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   width: 50,
                   color: Colors.black,
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 10,
                     vertical: 15,
@@ -106,7 +115,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
               ],
             ),
           ),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           buildTextField(
             label: "Parents'/Guardians' Name",
             controller: widget.parentNameController,
@@ -117,7 +126,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           buildTextField(
             label: "Parents'/Guardians' Mobile Number",
             controller: widget.parentMobileController,
@@ -128,12 +137,12 @@ class _MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           buildTextField(
             label: "Parents'/Guardians' Email ID",
             controller: widget.parentEmailController,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           buildTextField(
             label: "Current Address",
             controller: widget.parentAddressController,
@@ -144,9 +153,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
           ),
-          SizedBox(height: 60),
+          const SizedBox(height: 60),
           Center(
-            child: Container(
+            child: SizedBox(
               width: 500,
               height: 45,
               child: ElevatedButton(
@@ -157,22 +166,23 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     String parentEmail = widget.parentEmailController.text;
                     String parentAddress = widget.parentAddressController.text;
 
-                    print("Parents' Name: $parentName");
-                    print("Parents' Mobile Number: $parentMobile");
-                    print("Parents' Email: $parentEmail");
-                    print('Current Address: $parentAddress');
+                    // Storing Data in the Provider
+                    studentDataProvider.parentName = parentName;
+                    studentDataProvider.parentMobileNumber = parentMobile;
+                    studentDataProvider.parentEmailId = parentEmail;
+                    studentDataProvider.parentCurrentAddress = parentAddress;
 
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
-                          return SemesterDetails();
+                          return const SemesterDetails();
                         },
                       ),
                     );
                   }
                 },
                 style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all(Size(500, 50)),
+                  minimumSize: MaterialStateProperty.all(const Size(500, 50)),
                   backgroundColor: MaterialStateProperty.all<Color>(
                     const Color.fromRGBO(255, 102, 0, 1.0),
                   ),
@@ -182,7 +192,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     ),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Next',
                   style: TextStyle(fontSize: 16),
                 ),
@@ -202,12 +212,13 @@ class _MyCustomFormState extends State<MyCustomForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 16)),
+        Text(label, style: const TextStyle(fontSize: 16)),
         TextFormField(
           controller: controller,
-          style: TextStyle(fontSize: 15, color: Color.fromRGBO(0, 40, 168, 1)),
+          style: const TextStyle(
+              fontSize: 15, color: Color.fromRGBO(0, 40, 168, 1)),
           validator: validator,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             contentPadding:
                 EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             border: OutlineInputBorder(),

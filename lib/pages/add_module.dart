@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:provider/provider.dart';
+import 'package:semester_registration_app/provider/repeat_module_provider.dart';
 
 class AddModule extends StatelessWidget {
-  const AddModule({Key? key}) : super(key: key);
+  const AddModule({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Register"),
-        centerTitle: true,
+        title: const Text("Add Repeat Module"),
+        centerTitle: false,
         backgroundColor: const Color.fromRGBO(0, 40, 168, 1),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
@@ -18,7 +20,7 @@ class AddModule extends StatelessWidget {
           },
         ),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: MyCustomForm(),
       ),
     );
@@ -26,7 +28,7 @@ class AddModule extends StatelessWidget {
 }
 
 class MyCustomForm extends StatefulWidget {
-  MyCustomForm({Key? key});
+  const MyCustomForm({super.key});
 
   @override
   _MyCustomFormState createState() => _MyCustomFormState();
@@ -156,8 +158,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
           clearOnSubmit: false,
           suggestions: suggestions,
           controller: controller,
-          style: TextStyle(fontSize: 14, color: Color.fromRGBO(0, 40, 168, 1)),
-          decoration: InputDecoration(
+          style: const TextStyle(
+              fontSize: 14, color: Color.fromRGBO(0, 40, 168, 1)),
+          decoration: const InputDecoration(
             contentPadding:
                 EdgeInsets.symmetric(vertical: 1.0, horizontal: 8.0),
             border: OutlineInputBorder(),

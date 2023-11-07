@@ -54,7 +54,7 @@ class ReceiptPage extends StatelessWidget {
                         paymentDetail.paymentDate,
                         feeBreakdown,
                         totalFee,
-                        name as String?),
+                        name),
                     ReceitpInfo(
                       receiptNumber: paymentDetail.receiptNumber,
                       paymentDate: paymentDetail.paymentDate,
@@ -315,8 +315,8 @@ class _ButtonState extends State<Button> {
     pr = ProgressDialog(context);
     pr.style(
         message: 'Downnloading Receipt',
-        progressWidget: CircularProgressIndicator(),
-        messageTextStyle: TextStyle(
+        progressWidget: const CircularProgressIndicator(),
+        messageTextStyle: const TextStyle(
             color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w600));
     await pr.show(); // Show the progress dialog
 
@@ -450,7 +450,7 @@ class DisplayFees extends StatelessWidget {
 
 class JournalNumber extends StatelessWidget {
   String? journalNumber;
-  JournalNumber({required this.journalNumber});
+  JournalNumber({super.key, required this.journalNumber});
 
   @override
   Widget build(BuildContext context) {

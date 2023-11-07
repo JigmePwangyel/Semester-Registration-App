@@ -3,6 +3,8 @@ import 'add_module.dart';
 import 'payment_section.dart';
 
 class RepeatModule extends StatefulWidget {
+  const RepeatModule({super.key});
+
   @override
   _RepeatModuleState createState() => _RepeatModuleState();
 }
@@ -86,7 +88,7 @@ class _RepeatModuleState extends State<RepeatModule> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AddModule()),
+                          MaterialPageRoute(builder: (context) => const AddModule()),
                         ).then((value) {
                           setState(() {
                             if (value != null) {
@@ -96,7 +98,7 @@ class _RepeatModuleState extends State<RepeatModule> {
                         });
                       },
                       style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(Size(160, 50)),
+                        minimumSize: MaterialStateProperty.all(const Size(160, 50)),
                         backgroundColor: MaterialStateProperty.all<Color>(
                           const Color.fromRGBO(255, 102, 0, 1.0),
                         ),
@@ -119,11 +121,11 @@ class _RepeatModuleState extends State<RepeatModule> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PaymentSection()),
+                              builder: (context) => const PaymentSection()),
                         );
                       },
                       style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(Size(160, 50)),
+                        minimumSize: MaterialStateProperty.all(const Size(160, 50)),
                         backgroundColor: MaterialStateProperty.all<Color>(
                           const Color.fromRGBO(255, 102, 0, 1.0),
                         ),

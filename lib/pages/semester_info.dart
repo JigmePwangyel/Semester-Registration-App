@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:semester_registration_app/pages/payment_section.dart';
 import 'package:semester_registration_app/pages/repeat_module.dart';
+import 'package:semester_registration_app/provider/form_provider.dart';
+import 'package:semester_registration_app/provider/programme_provider.dart';
+import 'package:semester_registration_app/provider/registration_provider.dart';
 
 const List<String> years = [
   'First year',
@@ -10,7 +15,6 @@ const List<String> years = [
 ];
 
 const List<String> semesters = [
-  '1st',
   '2nd',
   '3rd',
   '4th',
@@ -22,14 +26,8 @@ const List<String> semesters = [
   '10th',
 ];
 
-void main() {
-  runApp(MaterialApp(
-    home: SemesterDetails(),
-  ));
-}
-
 class SemesterDetails extends StatefulWidget {
-  SemesterDetails({Key? key}) : super(key: key);
+  const SemesterDetails({super.key});
 
   @override
   _SemesterDetailsState createState() => _SemesterDetailsState();
@@ -46,14 +44,14 @@ class _SemesterDetailsState extends State<SemesterDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(0, 40, 168, 1),
+        backgroundColor: const Color.fromRGBO(0, 40, 168, 1),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        title: Text('Semester Details'),
+        title: const Text('Semester Details'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -84,6 +82,7 @@ class MyCustomForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
 
   MyCustomForm({
+    super.key,
     required this.programController,
     required this.selectedYear,
     required this.selectedSemester,
@@ -97,6 +96,15 @@ class MyCustomForm extends StatefulWidget {
 class _MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
+    //Provider to store details
+    StudentRegistrationProvider studentDataProvider =
+        Provider.of<StudentRegistrationProvider>(context, listen: false);
+
+    final String formType = context.watch<FormProvider>().formType;
+
+    final String programmeName =
+        context.watch<ProgrammeProvider>().programmeName;
+
     return Form(
       key: widget.formKey,
       child: Column(
@@ -111,7 +119,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                   width: 50,
                   color: Colors.black,
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 10,
                     vertical: 15,
@@ -132,29 +140,36 @@ class _MyCustomFormState extends State<MyCustomForm> {
               ],
             ),
           ),
-          SizedBox(height: 50),
-          buildTextField(
-            label: 'Program',
-            controller: widget.programController,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter the program';
-              }
-              return null;
-            },
+          const SizedBox(height: 50),
+          const Text('Programme', style: TextStyle(fontSize: 16)),
+          TextFormField(
+            enabled: false,
+            initialValue: programmeName,
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Color.fromRGBO(213, 216, 222, 1.0)
+                    // Change this color to your desired border color
+                    ),
+              ),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 1.0, horizontal: 8.0),
+              filled: true,
+              fillColor: Color.fromRGBO(233, 236, 241, 1.0),
+            ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           buildDropdownMenu(
             label: 'Year',
             items: years,
             selectedItem: widget.selectedYear,
             onSelected: (value) {
               setState(() {
-                widget.selectedYear = value;
+                widget.selectedYear = value; // Update the selectedYear
               });
             },
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           buildDropdownMenu(
             label: 'Semester',
             items: semesters,
@@ -165,29 +180,40 @@ class _MyCustomFormState extends State<MyCustomForm> {
               });
             },
           ),
-          SizedBox(height: 60),
+          const SizedBox(height: 60),
           Center(
-            child: Container(
+            child: SizedBox(
               width: 500,
               height: 45,
               child: ElevatedButton(
                 onPressed: () {
                   if (widget.formKey.currentState!.validate()) {
-                    String program = widget.programController.text;
                     String year = widget.selectedYear;
                     String semester = widget.selectedSemester;
 
-                    print('Program: $program');
-                    print('Year: $year');
-                    print('Semester: $semester');
+                    // Entering into the provider
+                    studentDataProvider.studentMobileNumber = year;
+                    studentDataProvider.studentEmail = semester;
 
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return RepeatModule();
-                        },
-                      ),
-                    );
+                    if (formType == "repeater") {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const RepeatModule();
+                          },
+                        ),
+                      );
+                    } else if (formType == "SelfFunding") {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const PaymentSection();
+                          },
+                        ),
+                      );
+                    } else {
+                      //Handle Registration
+                    }
                   }
                 },
                 style: ButtonStyle(
@@ -200,7 +226,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     ),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Next',
                   style: TextStyle(fontSize: 16),
                 ),
@@ -220,12 +246,13 @@ class _MyCustomFormState extends State<MyCustomForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 16)),
+        Text(label, style: const TextStyle(fontSize: 16)),
         TextFormField(
           controller: controller,
-          style: TextStyle(fontSize: 15, color: Color.fromRGBO(0, 40, 168, 1)),
+          style: const TextStyle(
+              fontSize: 15, color: Color.fromRGBO(0, 40, 168, 1)),
           validator: validator,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             contentPadding:
                 EdgeInsets.symmetric(vertical: 1.0, horizontal: 8.0),
             border: OutlineInputBorder(),
@@ -244,7 +271,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 14)),
+        Text(label, style: const TextStyle(fontSize: 14)),
         DropdownMenu<String>(
           initialSelection: selectedItem,
           onSelected: (String? value) {
@@ -252,7 +279,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
               selectedItem = value!;
             });
           },
-          width: 360,
+          width: 310,
           dropdownMenuEntries: items.map<DropdownMenuEntry<String>>((value) {
             return DropdownMenuEntry<String>(value: value, label: value);
           }).toList(),

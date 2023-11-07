@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:semester_registration_app/provider/form_provider.dart';
 import 'package:semester_registration_app/provider/user_provider.dart';
+import 'package:semester_registration_app/src/registration_form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'FeeStructurePage.dart';
 import 'package:semester_registration_app/pages/personal_details.dart';
@@ -15,17 +17,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String? user_name;
+  String? formType;
 
-  void writeIntoSharedPreferences(String username) async {
+  void writeIntoSharedPreferences(String key, String data) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('studentName', username);
+    prefs.setString(key, data);
   }
 
   @override
   Widget build(BuildContext context) {
     final String username = context.watch<UserProvider>().username;
-
+    getFormType(context, username);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -34,17 +36,18 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 25),
-              FutureBuilder<String>(
-                future: getUserName(username),
+              FutureBuilder(
+                future: Future.wait([
+                  getUserName(username),
+                ]),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator(); // Display a loading indicator while fetching data
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    final username = snapshot.data ??
+                    final username = snapshot.data?[0] ??
                         'No Name'; // Provide a default value if data is null
-                    writeIntoSharedPreferences(username);
                     final firstname = username.split(' ').first;
                     return Text('Welcome back, $firstname 👋',
                         style: const TextStyle(
@@ -395,7 +398,7 @@ class startButton extends StatelessWidget {
           // Button click action
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PersonalDetails()),
+            MaterialPageRoute(builder: (context) => const PersonalDetails()),
           );
         },
         style: ButtonStyle(

@@ -3,14 +3,14 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:semester_registration_app/pages/MyHomePage.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: SendPaymentInfo(),
-  ));
-}
-class SendPaymentInfo extends StatelessWidget {
+class SendPaymentInfo extends StatefulWidget {
   const SendPaymentInfo({super.key});
 
+  @override
+  State<SendPaymentInfo> createState() => _SendPaymentInfoState();
+}
+
+class _SendPaymentInfoState extends State<SendPaymentInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
