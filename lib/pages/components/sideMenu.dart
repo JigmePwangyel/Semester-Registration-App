@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:semester_registration_app/pages/login.dart';
 import '../Setting.dart';
 import '../AccountPage.dart';
+import 'package:semester_registration_app/provider/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class sideMenu extends StatelessWidget {
   const sideMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Drawer(
       child: Column(
         children: [
@@ -71,7 +75,16 @@ class sideMenu extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.logout),
                   title: const Text("Log Out"),
-                  onTap: () {},
+                  onTap: () {
+                    userProvider.logout();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const Login();
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

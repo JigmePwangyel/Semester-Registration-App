@@ -15,8 +15,8 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Register"),
-        centerTitle: true,
+        title: const Text("Payment"),
+        centerTitle: false,
         backgroundColor: const Color.fromRGBO(0, 40, 168, 1),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
@@ -74,19 +74,23 @@ class _MyCustomFormState extends State<MyCustomForm> {
               const SizedBox(height: 10),
               const Text("You Have Been Successfully Registered"),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const MyHomePage())); // Navigate back to the home screen
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(255, 102, 0, 1.0),
+              Container(
+                width: 500,
+                height: 45,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const MyHomePage())); // Navigate back to the home screen
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(255, 102, 0, 1.0),
+                  ),
+                  child: const Text('Back to Home'),
                 ),
-                child: const Text('Back to Home'),
               ),
             ],
           ),

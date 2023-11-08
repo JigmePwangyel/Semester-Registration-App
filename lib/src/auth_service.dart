@@ -9,7 +9,7 @@ import 'package:semester_registration_app/provider/user_provider.dart';
 Future<void> loginUser(BuildContext context, username, String password) async {
   final response = await http.post(
     Uri.parse(
-        'http://192.168.214.159:3000/auth/login'), // Replace with your API endpoint
+        'http://192.168.214.122:3000/auth/login'), // Replace with your API endpoint
     headers: {'Content-Type': 'application/json'},
     body: json.encode({'username': username, 'password': password}),
   );

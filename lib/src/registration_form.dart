@@ -10,7 +10,7 @@ import '../models/PersonalDetailsModel.dart';
 //To fetch form type.
 Future<void> getFormType(BuildContext context, String userId) async {
   final apiUrl =
-      'http://192.168.214.159:3000/registration/$userId/form'; // Replace with your API endpoint
+      'http://192.168.214.122:3000/registration/$userId/form'; // Replace with your API endpoint
   // Get the ProgrammeProvider and set the programmeName
   final formProvider = context.read<FormProvider>();
   try {
@@ -34,7 +34,7 @@ Future<void> getFormType(BuildContext context, String userId) async {
 //For Personal Details Page
 Future<Student> fetchStudentData(String userId) async {
   final apiUrl =
-      'http://192.168.214.159:3000/registration/$userId/PersonalDetail'; // Replace with your API endpoint
+      'http://192.168.214.122:3000/registration/$userId/PersonalDetail'; // Replace with your API endpoint
 
   final response = await http.get(Uri.parse(apiUrl));
 
@@ -48,7 +48,7 @@ Future<Student> fetchStudentData(String userId) async {
 
 //For Semester Detail page
 Future<void> fetchAndSetProgramme(BuildContext context, String userId) async {
-  final apiUrl = 'http://192.168.214.159:3000/registration/$userId/programme';
+  final apiUrl = 'http://192.168.214.122:3000/registration/$userId/programme';
 
   final response = await http.get(Uri.parse(apiUrl));
 
@@ -67,7 +67,7 @@ Future<void> fetchAndSetProgramme(BuildContext context, String userId) async {
 //To fetch Repeat Module
 Future<Map<String, String>> fetchAndTransformData(String userId) async {
   final response = await http.get(Uri.parse(
-      'http://192.168.214.159:3000/registration/$userId/repeatmodule'));
+      'http://192.168.214.122:3000/registration/$userId/repeatmodule'));
 
   if (response.statusCode == 200) {
     final List<dynamic> jsonData = json.decode(response.body);

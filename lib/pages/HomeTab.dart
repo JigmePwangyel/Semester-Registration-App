@@ -36,9 +36,10 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 25),
-              FutureBuilder(
+              FutureBuilder<List<dynamic>>(
                 future: Future.wait([
                   getUserName(username),
+                  isRegistered(username),
                 ]),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -46,38 +47,75 @@ class _HomePageState extends State<HomePage> {
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    final username = snapshot.data?[0] ??
-                        'No Name'; // Provide a default value if data is null
+                    final List<dynamic> data = snapshot.data ?? [];
+                    final String username = data[0] ?? 'No Name';
+                    final bool registrationStatus = data[1] ?? false;
+
                     final firstname = username.split(' ').first;
-                    return Text('Welcome back, $firstname 👋',
-                        style: const TextStyle(
-                          fontSize: 23,
-                          fontWeight: FontWeight.w600,
-                        ));
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment
+                          .start, // Align the text to the left
+                      children: [
+                        Text('Welcome back, $firstname 👋',
+                            style: const TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w600,
+                            )),
+                        const SizedBox(height: 25),
+                        if (registrationStatus) ...[
+                          const registeredContainer(),
+                        ] else ...[
+                          const notRegisteredContainer(),
+                        ],
+                        const SizedBox(height: 25),
+                        const infoCard(),
+                        const SizedBox(height: 25),
+                        const homePageCard(),
+                      ],
+                    );
                   }
                 },
               ),
-              const SizedBox(height: 25),
-              FutureBuilder<bool>(
-                  future: isRegistered(username),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator(); // Display a loading indicator while fetching data
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      bool RegistrationStatus = snapshot.data ?? false;
-                      if (RegistrationStatus) {
-                        return const registeredContainer();
-                      } else {
-                        return const notRegisteredContainer();
-                      }
-                    }
-                  }),
-              const SizedBox(height: 25),
-              const infoCard(),
-              const SizedBox(height: 25),
-              const homePageCard(),
+
+              // FutureBuilder(
+              //   future: Future.wait([
+              //     getUserName(username),
+              //   ]),
+              //   builder: (context, snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       return const CircularProgressIndicator(); // Display a loading indicator while fetching data
+              //     } else if (snapshot.hasError) {
+              //       return Text('Error: ${snapshot.error}');
+              //     } else {
+              //       final username = snapshot.data?[0] ??
+              //           'No Name'; // Provide a default value if data is null
+              //       final firstname = username.split(' ').first;
+              //       return Text('Welcome back, $firstname 👋',
+              //           style: const TextStyle(
+              //             fontSize: 23,
+              //             fontWeight: FontWeight.w600,
+              //           ));
+              //     }
+              //   },
+              // ),
+              // const SizedBox(height: 25),
+              // FutureBuilder<bool>(
+              //     future: isRegistered(username),
+              //     builder: (context, snapshot) {
+              //       if (snapshot.connectionState == ConnectionState.waiting) {
+              //         return const CircularProgressIndicator(); // Display a loading indicator while fetching data
+              //       } else if (snapshot.hasError) {
+              //         return Text('Error: ${snapshot.error}');
+              //       } else {
+              //         bool RegistrationStatus = snapshot.data ?? false;
+              //         if (RegistrationStatus) {
+              //           return const registeredContainer();
+              //         } else {
+              //           return const notRegisteredContainer();
+              //         }
+              //       }
+              //     }),
             ],
           ),
         ),

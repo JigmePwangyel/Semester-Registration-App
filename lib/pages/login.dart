@@ -20,6 +20,8 @@ class _LoginState extends State<Login> {
 
   String username = "";
   String password = "";
+  TextEditingController _passwordController = TextEditingController();
+  bool _isPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -93,20 +95,31 @@ class _LoginState extends State<Login> {
                     onChanged: (value) {
                       password = value;
                     },
-                    obscureText: true,
+                    controller: _passwordController,
+                    obscureText: _isPasswordHidden,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(10),
                         child: SvgPicture.asset('assets/password.svg'),
                       ),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: SvgPicture.asset('assets/password_hide.svg'),
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isPasswordHidden = !_isPasswordHidden;
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: SvgPicture.asset(
+                            _isPasswordHidden
+                                ? 'assets/password_hide.svg'
+                                : 'assets/password_show.svg',
+                          ),
+                        ),
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 50),
 
                   //Login Button

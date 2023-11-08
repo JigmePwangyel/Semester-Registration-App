@@ -17,7 +17,7 @@ class _RepeatModuleState extends State<RepeatModule> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Register"),
-        centerTitle: true,
+        centerTitle: false,
         backgroundColor: const Color.fromRGBO(0, 40, 168, 1),
         leading: IconButton(
           icon: const Icon(
@@ -88,7 +88,8 @@ class _RepeatModuleState extends State<RepeatModule> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const AddModule()),
+                          MaterialPageRoute(
+                              builder: (context) => const AddModule()),
                         ).then((value) {
                           setState(() {
                             if (value != null) {
@@ -98,7 +99,8 @@ class _RepeatModuleState extends State<RepeatModule> {
                         });
                       },
                       style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(const Size(160, 50)),
+                        minimumSize:
+                            MaterialStateProperty.all(const Size(120, 50)),
                         backgroundColor: MaterialStateProperty.all<Color>(
                           const Color.fromRGBO(255, 102, 0, 1.0),
                         ),
@@ -125,7 +127,8 @@ class _RepeatModuleState extends State<RepeatModule> {
                         );
                       },
                       style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(const Size(160, 50)),
+                        minimumSize:
+                            MaterialStateProperty.all(const Size(120, 50)),
                         backgroundColor: MaterialStateProperty.all<Color>(
                           const Color.fromRGBO(255, 102, 0, 1.0),
                         ),

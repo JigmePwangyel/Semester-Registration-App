@@ -16,12 +16,15 @@ class PaymentSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Register"),
-        centerTitle: true,
+        title: const Text("Payment"),
+        centerTitle: false,
       ),
       body: const SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.only(
+            left: 20,
+            right: 20,
+          ),
           child: CardContainer1(),
         ),
       ),
@@ -36,25 +39,29 @@ class CardContainer1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 50),
-      child: Card(
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(0),
-              child: const Download(),
+      child: Column(
+        children: [
+          Card(
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(0),
+                  child: const Detail(),
+                ),
+                const DisplayFees(),
+              ],
             ),
-            const DisplayFees(),
-            const SizedBox(height: 30),
-            const SendPaymentInfo(),
-          ],
-        ),
+          ),
+          const SizedBox(height: 10),
+          const SendPaymentInfo(),
+        ],
       ),
     );
   }
 }
 
-class Download extends StatelessWidget {
-  const Download({super.key});
+class Detail extends StatelessWidget {
+  const Detail({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +224,7 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
         const SizedBox(height: 40),
         Center(
           child: SizedBox(
-            width: 180,
+            width: 400,
             height: 40,
             child: ElevatedButton(
               onPressed: () {
@@ -239,14 +246,19 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
                   //Will have repeat modules
                 }
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromRGBO(255, 102, 0, 1.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color.fromRGBO(255, 102, 0, 1.0),
+                  ), // Set the background color
+
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          5), // Adjust the border radius as needed
+                    ),
+                  )),
               child: const Text(
-                'Send',
+                'Submit',
                 style: TextStyle(fontSize: 18),
               ),
             ),

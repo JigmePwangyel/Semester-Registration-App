@@ -5,7 +5,7 @@ import '../models/FetchPaymentDetailModel.dart';
 //To fetch payment details.
 Future<PaymentResponse> getPaymentDetail(String userId) async {
   final apiUrl =
-      'http://192.168.214.159:3000/payment/total-paid/$userId'; // Replace with your API endpoint
+      'http://192.168.214.122:3000/payment/total-paid/$userId'; // Replace with your API endpoint
   try {
     final response = await http.get(Uri.parse(apiUrl));
     final Map<String, dynamic> jsonData = json.decode(response.body);
