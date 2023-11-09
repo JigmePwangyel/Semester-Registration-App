@@ -1,12 +1,12 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// class RepeatModuleProvider extends ChangeNotifier {
-//   RepeatModuleModel _repeatModuleModel = RepeatModuleModel();
+class RepeatModuleProvider extends ChangeNotifier {
+  Map<String, String> _RepeatModule = {};
 
-//   RepeatModuleModel get dataModel => _repeatModuleModel;
+  Map<String, String> get RepeatModule => _RepeatModule;
 
-//   void addData(String key, String value) {
-//     _repeatModuleModel.dataMap[key] = value;
-//     notifyListeners();
-//   }
-// }
+  void setData(Map<String, String> data) {
+    _RepeatModule = data;
+    notifyListeners();
+  }
+}

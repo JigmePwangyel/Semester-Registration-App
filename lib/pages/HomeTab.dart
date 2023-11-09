@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:semester_registration_app/provider/form_provider.dart';
 import 'package:semester_registration_app/provider/user_provider.dart';
 import 'package:semester_registration_app/src/registration_form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final String username = context.watch<UserProvider>().username;
     getFormType(context, username);
+    fetchAndTransformData(context, username);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(

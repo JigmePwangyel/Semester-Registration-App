@@ -40,14 +40,16 @@ class _MyCustomFormState extends State<MyCustomForm> {
   final TextEditingController statusController = TextEditingController();
   bool isInvalid = false; // Added isInvalid variable
 
-  final Map<String, String> moduleMap = {
-    "Human Computer Interaction": "CTE307",
-    "Advanced Web Technology": "CTE306",
-    "Mobile Application Development": "CTE308",
-  };
-
+  // final Map<String, String> moduleMap = {
+  //   "Human Computer Interaction": "CTE307",
+  //   "Advanced Web Technology": "CTE306",
+  //   "Mobile Application Development": "CTE308",
+  //   "Object Oriented Analysis": "DIS302",
+  // };
+  late final Map<String, String> moduleMap;
   @override
   Widget build(BuildContext context) {
+    moduleMap = context.watch<RepeatModuleProvider>().RepeatModule;
     return Container(
       padding: const EdgeInsets.all(25),
       child: Column(

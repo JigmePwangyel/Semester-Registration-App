@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 /// Please create a model and try again
 Future<String> getUserName(String userId) async {
   final apiUrl =
-      'http://192.168.214.122:3000/user/$userId'; // Replace with your API endpoint
+      'http://192.168.77.122:3000/user/$userId'; // Replace with your API endpoint
   try {
     final response = await http.get(Uri.parse(apiUrl));
 
@@ -29,7 +29,7 @@ Future<String> getUserName(String userId) async {
 /// Please create a mode and try again
 //TO check wherether the user is registered
 Future<bool> isRegistered(String userId) async {
-  final apiUrl = 'http://192.168.214.122:3000/user/$userId/IsRegistered';
+  final apiUrl = 'http://192.168.77.122:3000/user/$userId/IsRegistered';
   try {
     final response = await http.get(Uri.parse(apiUrl));
 
@@ -49,7 +49,7 @@ Future<bool> isRegistered(String userId) async {
 //To fetch user's semester registration details.
 Future<String> getRegistrationDetail(String userId) async {
   final apiUrl =
-      'http://192.168.214.122:3000/registration/$userId/RegistrationDetail'; // Replace with your API endpoint
+      'http://192.168.77.122:3000/registration/$userId/RegistrationDetail'; // Replace with your API endpoint
   try {
     final response = await http.get(Uri.parse(apiUrl));
     return response.body;

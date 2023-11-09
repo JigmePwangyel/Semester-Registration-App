@@ -18,7 +18,7 @@ void main() {
             create: (context) => StudentRegistrationProvider()),
         ChangeNotifierProvider(create: (context) => ProgrammeProvider()),
         ChangeNotifierProvider(create: (context) => FormProvider()),
-        // ChangeNotifierProvider(create: (context) => ModuleProvider()),
+        ChangeNotifierProvider(create: (context) => RepeatModuleProvider()),
       ],
       child: const MyApp(),
     ),
