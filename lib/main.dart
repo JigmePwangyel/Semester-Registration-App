@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_registration_app/pages/MyHomePage.dart';
+import 'package:semester_registration_app/provider/StoreRepeatModule.dart';
 import 'package:semester_registration_app/provider/form_provider.dart';
 import 'package:semester_registration_app/provider/programme_provider.dart';
 import 'package:semester_registration_app/provider/registration_provider.dart';
@@ -19,6 +20,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => ProgrammeProvider()),
         ChangeNotifierProvider(create: (context) => FormProvider()),
         ChangeNotifierProvider(create: (context) => RepeatModuleProvider()),
+        ChangeNotifierProvider(create: (context) => EnteredModuleProvider()),
       ],
       child: const MyApp(),
     ),

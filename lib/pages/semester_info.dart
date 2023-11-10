@@ -164,8 +164,11 @@ class _MyCustomFormState extends State<MyCustomForm> {
             items: years,
             selectedItem: widget.selectedYear,
             onSelected: (value) {
+              print('onSelected callback triggered with value: $value');
               setState(() {
-                widget.selectedYear = value; // Update the selectedYear
+                widget.selectedYear = value!; // Update the selectedYear
+                studentDataProvider.year =
+                    value; // Set the year in the provider
               });
             },
           ),
@@ -175,9 +178,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
             items: semesters,
             selectedItem: widget.selectedSemester,
             onSelected: (value) {
-              setState(() {
-                widget.selectedSemester = value;
-              });
+              widget.selectedSemester = value!;
+              studentDataProvider.semester = value;
             },
           ),
           const SizedBox(height: 60),
@@ -188,12 +190,12 @@ class _MyCustomFormState extends State<MyCustomForm> {
               child: ElevatedButton(
                 onPressed: () {
                   if (widget.formKey.currentState!.validate()) {
-                    String year = widget.selectedYear;
-                    String semester = widget.selectedSemester;
+                    // String year = widget.selectedYear;
+                    // String semester = widget.selectedSemester;
 
                     // Entering into the provider
-                    studentDataProvider.studentMobileNumber = year;
-                    studentDataProvider.studentEmail = semester;
+                    // studentDataProvider.year = year;
+                    // studentDataProvider.semester = semester;
 
                     if (formType == "repeater") {
                       Navigator.of(context).push(
@@ -266,7 +268,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
     required String label,
     required List<String> items,
     required String selectedItem,
-    required Function(String) onSelected,
+    required void Function(String?)? onSelected,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -274,11 +276,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
         Text(label, style: const TextStyle(fontSize: 14)),
         DropdownMenu<String>(
           initialSelection: selectedItem,
-          onSelected: (String? value) {
-            setState(() {
-              selectedItem = value!;
-            });
-          },
+          onSelected: onSelected,
           width: 310,
           dropdownMenuEntries: items.map<DropdownMenuEntry<String>>((value) {
             return DropdownMenuEntry<String>(value: value, label: value);

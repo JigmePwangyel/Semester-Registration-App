@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:provider/provider.dart';
+import 'package:semester_registration_app/models/RepeatModule.dart';
+import 'package:semester_registration_app/provider/StoreRepeatModule.dart';
 import 'package:semester_registration_app/provider/repeat_module_provider.dart';
 
 class AddModule extends StatelessWidget {
@@ -40,16 +42,14 @@ class _MyCustomFormState extends State<MyCustomForm> {
   final TextEditingController statusController = TextEditingController();
   bool isInvalid = false; // Added isInvalid variable
 
-  // final Map<String, String> moduleMap = {
-  //   "Human Computer Interaction": "CTE307",
-  //   "Advanced Web Technology": "CTE306",
-  //   "Mobile Application Development": "CTE308",
-  //   "Object Oriented Analysis": "DIS302",
-  // };
-  late final Map<String, String> moduleMap;
+  Map<String, String>? moduleMap;
+  List<Module> modules = []; // List to store modules
+
   @override
   Widget build(BuildContext context) {
     moduleMap = context.watch<RepeatModuleProvider>().RepeatModule;
+    final enteredModuleProvider = context.watch<EnteredModuleProvider>();
+    List<Module> enteredModule = enteredModuleProvider.enteredModules;
     return Container(
       padding: const EdgeInsets.all(25),
       child: Column(
@@ -59,10 +59,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
           buildAutoCompleteTextField(
             label: 'Module Name',
             controller: moduleNameController,
-            suggestions: moduleMap.keys.toList(),
+            suggestions: moduleMap!.keys.toList(),
             onChanged: (value) {
               if (value == moduleNameController.text) {
-                moduleCodeController.text = moduleMap[value] ?? '';
+                moduleCodeController.text = moduleMap![value] ?? '';
                 isInvalid = false;
               } else {
                 isInvalid = true;
@@ -73,10 +73,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
           buildAutoCompleteTextField(
             label: 'Module Code',
             controller: moduleCodeController,
-            suggestions: moduleMap.values.toList(),
+            suggestions: moduleMap!.values.toList(),
             onChanged: (value) {
               if (value == moduleCodeController.text) {
-                moduleMap.forEach((key, val) {
+                moduleMap!.forEach((key, val) {
                   if (val == value) {
                     moduleNameController.text = key;
                   }
@@ -111,6 +111,29 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     ));
                   } else {
                     String moduleName = moduleNameController.text;
+                    String moduleCode = moduleCodeController.text;
+                    String status = statusController.text;
+
+                    // Create a Module object and add it to the list
+                    Module module = Module(
+                      moduleName: moduleName,
+                      moduleCode: moduleCode,
+                      status: status,
+                    );
+
+                    // Use the new provider to add the entered module
+                    enteredModuleProvider.addEnteredModule(module);
+
+                    // Accessing properties of each module
+                    for (Module module in enteredModule) {
+                      String moduleName = module.moduleName;
+                      String moduleCode = module.moduleCode;
+                      String status = module.status;
+
+                      // Use the properties as needed
+                      print(
+                          'Module Name: $moduleName, Module Code: $moduleCode, Status: $status');
+                    }
                     Navigator.of(context).pop(moduleName);
                   }
                 },
@@ -134,9 +157,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
 
   bool isInputValid() {
     return !isInvalid &&
-        isSuggestionValid(moduleNameController.text, moduleMap.keys.toList()) &&
         isSuggestionValid(
-            moduleCodeController.text, moduleMap.values.toList()) &&
+            moduleNameController.text, moduleMap!.keys.toList()) &&
+        isSuggestionValid(
+            moduleCodeController.text, moduleMap!.values.toList()) &&
         isSuggestionValid(
             statusController.text, ["First Repeat", "Second Repeat"]);
   }
