@@ -1,4 +1,3 @@
-
 class PaymentResponse {
   final List<PaymentDetail> paymentDetail;
   final String scholarshipType;
@@ -64,7 +63,7 @@ class PaymentDetail {
     return PaymentDetail(
       paymentDate: json['payment_date'],
       amount: json['amount'],
-      receiptNumber: json['receipt_number'],
+      receiptNumber: json['paymentID'].toString(),
       journalNumber: json['journal_number'],
     );
   }

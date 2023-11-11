@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage> {
                 future: Future.wait([
                   getUserName(username),
                   isRegistered(username),
+                  
                 ]),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {

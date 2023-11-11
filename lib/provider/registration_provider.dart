@@ -11,9 +11,9 @@ class StudentRegistrationProvider extends ChangeNotifier {
   String semester = '';
   String year = '';
   String journalNUmber = '';
-
+  String scholarship = '';
+  String amount = '';
   XFile? _paymentScreenshot; // Add selectedImage property
-
   XFile? get selectedImage => _paymentScreenshot; // Getter for selectedImage
 
   void setSelectedImage(XFile? image) {
@@ -32,5 +32,20 @@ class StudentRegistrationProvider extends ChangeNotifier {
     print(year);
     print(journalNUmber);
     print(_paymentScreenshot);
+  }
+
+  void clearData() {
+    studentMobileNumber = '';
+    studentEmail = '';
+    parentName = '';
+    parentMobileNumber = '';
+    parentEmailId = '';
+    parentCurrentAddress = '';
+    semester = '';
+    year = '';
+    journalNUmber = '';
+    scholarship = '';
+    amount = '';
+    _paymentScreenshot = null; // Add selectedImage property
   }
 }

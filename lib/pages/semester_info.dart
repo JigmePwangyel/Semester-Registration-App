@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:semester_registration_app/pages/HomeTab.dart';
+import 'package:semester_registration_app/pages/MyHomePage.dart';
 import 'package:semester_registration_app/pages/payment_section.dart';
 import 'package:semester_registration_app/pages/repeat_module.dart';
+import 'package:semester_registration_app/provider/RepeaterCheckProvider.dart';
 import 'package:semester_registration_app/provider/form_provider.dart';
 import 'package:semester_registration_app/provider/programme_provider.dart';
 import 'package:semester_registration_app/provider/registration_provider.dart';
+import 'package:semester_registration_app/provider/user_provider.dart';
+import '../src/registration_form.dart';
 
 const List<String> years = [
   'First year',
@@ -99,8 +104,12 @@ class _MyCustomFormState extends State<MyCustomForm> {
     //Provider to store details
     StudentRegistrationProvider studentDataProvider =
         Provider.of<StudentRegistrationProvider>(context, listen: false);
-
+    final String username = context.watch<UserProvider>().username;
     final String formType = context.watch<FormProvider>().formType;
+    bool ButtonCondition = true;
+    if (formType == "regular") {
+      ButtonCondition = false;
+    }
 
     final String programmeName =
         context.watch<ProgrammeProvider>().programmeName;
@@ -188,7 +197,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
               width: 500,
               height: 45,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  BuildContext currentContext = context;
                   if (widget.formKey.currentState!.validate()) {
                     // String year = widget.selectedYear;
                     // String semester = widget.selectedSemester;
@@ -198,7 +208,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     // studentDataProvider.semester = semester;
 
                     if (formType == "repeater") {
-                      Navigator.of(context).push(
+                      await checkRepeaterStatus(username, context);
+                      Navigator.of(currentContext).push(
                         MaterialPageRoute(
                           builder: (context) {
                             return const RepeatModule();
@@ -206,15 +217,69 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         ),
                       );
                     } else if (formType == "SelfFunding") {
-                      Navigator.of(context).push(
+                      Navigator.of(currentContext).push(
                         MaterialPageRoute(
                           builder: (context) {
                             return const PaymentSection();
                           },
                         ),
                       );
-                    } else {
+                    } else if (formType == "regular") {
                       //Handle Registration
+                      String studentMobileNumber =
+                          studentDataProvider.studentMobileNumber;
+                      String studentEmail = studentDataProvider.studentEmail;
+                      String semester = studentDataProvider.semester;
+                      String year = studentDataProvider.year;
+                      String parentName = studentDataProvider.parentName;
+                      String parentMobileNumber =
+                          studentDataProvider.parentMobileNumber;
+                      String parentEmailId = studentDataProvider.parentEmailId;
+                      String parentCurrentAddress =
+                          studentDataProvider.parentCurrentAddress;
+                      int statusode = await uploadRegularStudentData(
+                        username,
+                        studentMobileNumber,
+                        studentEmail,
+                        semester,
+                        year,
+                        parentName,
+                        parentEmailId,
+                        parentCurrentAddress,
+                        parentMobileNumber,
+                      );
+                      // Show success dialog
+
+                      print(statusode);
+                      if (statusode == 200) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Thank You'),
+                                content: Text(
+                                    'You have been successfully Registered!'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(); // Close the dialog
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return const MyHomePage();
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            });
+                      } else {
+                        print("Error");
+                      }
                     }
                   }
                 },
@@ -228,8 +293,8 @@ class _MyCustomFormState extends State<MyCustomForm> {
                     ),
                   ),
                 ),
-                child: const Text(
-                  'Next',
+                child: Text(
+                  ButtonCondition ? "Next" : "Submit",
                   style: TextStyle(fontSize: 16),
                 ),
               ),

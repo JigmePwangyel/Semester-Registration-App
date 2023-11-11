@@ -103,6 +103,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
           return Text('Error: ${snapshot.error}');
         } else {
           final student = snapshot.data;
+          studentDataProvider.scholarship = student!.scholarship;
           return Form(
             key: widget.formKey,
             child: Column(

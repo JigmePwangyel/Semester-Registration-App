@@ -10,4 +10,9 @@ class EnteredModuleProvider extends ChangeNotifier {
     _enteredModules.add(module);
     notifyListeners();
   }
+
+  void clearData() {
+    _enteredModules = []; // Set to an empty list
+    notifyListeners();
+  }
 }

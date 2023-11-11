@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:semester_registration_app/pages/login.dart';
+import 'package:semester_registration_app/pages/payment_section.dart';
+import 'package:semester_registration_app/provider/StoreRepeatModule.dart';
+import 'package:semester_registration_app/provider/registration_provider.dart';
 import '../Setting.dart';
 import '../AccountPage.dart';
 import 'package:semester_registration_app/provider/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 class sideMenu extends StatelessWidget {
   const sideMenu({super.key});
@@ -76,7 +80,17 @@ class sideMenu extends StatelessWidget {
                   leading: const Icon(Icons.logout),
                   title: const Text("Log Out"),
                   onTap: () {
+                    StudentRegistrationProvider studentRegistrationProvider =
+                        StudentRegistrationProvider();
+                    studentRegistrationProvider.clearData();
+
+                    EnteredModuleProvider moduleProvider =
+                        EnteredModuleProvider();
+                    print("Is this printed");
+                    moduleProvider.clearData();
+                    print(moduleProvider.enteredModules);
                     userProvider.logout();
+
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {

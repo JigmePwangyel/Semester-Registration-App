@@ -4,8 +4,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:semester_registration_app/pages/MyHomePage.dart';
+import 'package:semester_registration_app/provider/RepeaterCheckProvider.dart';
+import 'package:semester_registration_app/provider/StoreRepeatModule.dart';
 import 'package:semester_registration_app/provider/form_provider.dart';
 import 'package:semester_registration_app/provider/registration_provider.dart';
+import 'package:semester_registration_app/provider/repeat_module_provider.dart';
+import 'package:semester_registration_app/provider/user_provider.dart';
+import 'package:semester_registration_app/src/registration_form.dart';
 
 class PaymentSection extends StatelessWidget {
   const PaymentSection({
@@ -100,21 +105,102 @@ class DisplayFees extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: const [
+    final String formType = context.watch<FormProvider>().formType;
+    EnteredModuleProvider repeatModuleProvider =
+        context.watch<EnteredModuleProvider>();
+    StudentRegistrationProvider studentDataProvider =
+        Provider.of<StudentRegistrationProvider>(context, listen: false);
+    RepeaterCheckProvider repeaterProvider =
+        context.read<RepeaterCheckProvider>();
+    final typeOfRepeat = repeaterProvider.result;
+    print("The type of repeat is $typeOfRepeat");
+
+    int amount = 0;
+    int tuitionFees = 45823;
+    int hostelFees = 12500;
+    int totalRepaetModule = repeatModuleProvider.enteredModules.length;
+    String scholarship = studentDataProvider.scholarship;
+    // Additional fees based on formType
+    List<Widget> additionalTiles = [];
+    UserProvider userProvider = context.watch();
+
+    if (userProvider.isLoggedIn == false) {
+      additionalTiles = [];
+      amount = 0;
+    }
+
+    print("The type of repeat is $typeOfRepeat");
+    //To handle calculation of fees
+    if (formType == "SelfFunding" && totalRepaetModule == 0) {
+      // Only tuition and hostel fees for self-funding
+      additionalTiles = [
         ListTile(
           leading: Text("Tuition Fees"),
-          trailing: Text("Nu. 54000"),
-        ),
-        ListTile(
-          leading: Text("Mess Fees"),
-          trailing: Text("Nu. 2500"),
+          trailing: Text("Nu. $tuitionFees"),
         ),
         ListTile(
           leading: Text("Hostel Fees"),
-          trailing: Text("Nu. 12500"),
+          trailing: Text("Nu. $hostelFees"),
         ),
+      ];
+      amount = tuitionFees + hostelFees;
+      studentDataProvider.amount = amount.toString();
+    } else if (formType == "repeater") {
+      if (typeOfRepeat == "repeater") {
+        //Only pays for that module
+        print("This should be printed");
+        for (int i = 0; i < totalRepaetModule; ++i) {
+          additionalTiles.add(
+            ListTile(
+              leading: Text(repeatModuleProvider.enteredModules[i].moduleCode),
+              trailing: Text("Nu. 9164"),
+            ),
+          );
+        }
+        amount = 9164 * totalRepaetModule;
+        studentDataProvider.amount = amount.toString();
+      } else if ((typeOfRepeat == "backpaper") && scholarship == "Government") {
+        //Pays for modules only
+        for (int i = 0; i < totalRepaetModule; ++i) {
+          additionalTiles.add(
+            ListTile(
+              leading: Text(repeatModuleProvider.enteredModules[i].moduleCode),
+              trailing: Text("Nu. 200"),
+            ),
+          );
+        }
+        amount = 200 * totalRepaetModule;
+      } else if ((typeOfRepeat == "backpaper") &&
+          scholarship == "Self Funding") {
+        //Pays for repeat module and tuition fees.
+        additionalTiles.add(
+          ListTile(
+            leading: Text("Tuition Fees"),
+            trailing: Text("Nu. $tuitionFees"),
+          ),
+        );
+        additionalTiles.add(
+          ListTile(
+            leading: Text("Hostel Fees"),
+            trailing: Text("Nu. $hostelFees"),
+          ),
+        );
+        for (int i = 0; i < totalRepaetModule; ++i) {
+          additionalTiles.add(
+            ListTile(
+              leading: Text(repeatModuleProvider.enteredModules[i].moduleCode),
+              trailing: Text("Nu. 200"),
+            ),
+          );
+        }
+        amount = 200 * totalRepaetModule + hostelFees + tuitionFees;
+        studentDataProvider.amount = amount.toString();
+      }
+    }
+    return ListView(
+      shrinkWrap: true,
+      children: [
+        ...additionalTiles,
         Divider(),
         ListTile(
           leading: Text(
@@ -125,7 +211,7 @@ class DisplayFees extends StatelessWidget {
             ),
           ),
           trailing: Text(
-            "Nu. 54000",
+            "Nu. $amount",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -206,7 +292,7 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
     StudentRegistrationProvider studentDataProvider =
         Provider.of<StudentRegistrationProvider>(context, listen: false);
     final String formType = context.watch<FormProvider>().formType;
-
+    final String username = context.watch<UserProvider>().username;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -227,7 +313,7 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
             width: 400,
             height: 40,
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (validateJournalNumber()) {
                   showSuccessDialog(context);
                 }
@@ -237,11 +323,73 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
                 studentDataProvider.setSelectedImage(selectedImage);
                 studentDataProvider.printThings();
 
+                //Setting up the variables
+                String studentMobileNumber =
+                    studentDataProvider.studentMobileNumber;
+                String studentEmail = studentDataProvider.studentEmail;
+                String parentName = studentDataProvider.parentName;
+                String parentMobileNumber =
+                    studentDataProvider.parentMobileNumber;
+                String parentEmailId = studentDataProvider.parentEmailId;
+                String parentCurrentAddress =
+                    studentDataProvider.parentCurrentAddress;
+                String semester = studentDataProvider.semester;
+                String year = studentDataProvider.year;
+                String amount = studentDataProvider.amount;
+                XFile? paymentScreenshot = selectedImage;
+
+                print("Hello");
+                print("The amount from provider is $amount");
                 /**
                * Handle Form Submission
                */
                 if (formType == "SelfFunding") {
                   //For Self Funding
+                  print(parentMobileNumber);
+                  int statuscode = await uploadSeflFinaceStudentData(
+                    username,
+                    studentMobileNumber,
+                    studentEmail,
+                    parentName,
+                    parentMobileNumber,
+                    parentEmailId,
+                    parentCurrentAddress,
+                    semester,
+                    year,
+                    journalNUmber,
+                    amount,
+                    paymentScreenshot,
+                  );
+
+                  if (statuscode == 200) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Thank You'),
+                            content:
+                                Text('You have been successfully Registered!'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return const MyHomePage();
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        });
+                  } else {
+                    print("Error");
+                  }
                 } else {
                   //Will have repeat modules
                 }
