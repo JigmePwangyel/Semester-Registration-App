@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:semester_registration_app/pages/MyHomePage.dart';
+import 'package:semester_registration_app/provider/form_provider.dart';
 import 'package:semester_registration_app/provider/user_provider.dart';
 import 'package:semester_registration_app/src/registration_form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,13 +42,24 @@ class _HomePageState extends State<HomePage> {
                 future: Future.wait([
                   getUserName(username),
                   isRegistered(username),
-                  
-                ]),
+                ]).timeout(const Duration(seconds: 30), onTimeout: () {
+                  // Handle timeout by returning an error state
+                  return Future.error('Timeout occurred');
+                }),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator(); // Display a loading indicator while fetching data
+                    return const Center(
+                        child:
+                            CircularProgressIndicator()); // Display a loading indicator while fetching data
                   } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
+                    return Text(
+                      'Error while fetching data',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
                   } else {
                     final List<dynamic> data = snapshot.data ?? [];
                     final String username = data[0] ?? 'No Name';
@@ -72,51 +85,12 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(height: 25),
                         const infoCard(),
                         const SizedBox(height: 25),
-                        const homePageCard(),
+                        homePageCard(registrationStatus),
                       ],
                     );
                   }
                 },
               ),
-
-              // FutureBuilder(
-              //   future: Future.wait([
-              //     getUserName(username),
-              //   ]),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.connectionState == ConnectionState.waiting) {
-              //       return const CircularProgressIndicator(); // Display a loading indicator while fetching data
-              //     } else if (snapshot.hasError) {
-              //       return Text('Error: ${snapshot.error}');
-              //     } else {
-              //       final username = snapshot.data?[0] ??
-              //           'No Name'; // Provide a default value if data is null
-              //       final firstname = username.split(' ').first;
-              //       return Text('Welcome back, $firstname 👋',
-              //           style: const TextStyle(
-              //             fontSize: 23,
-              //             fontWeight: FontWeight.w600,
-              //           ));
-              //     }
-              //   },
-              // ),
-              // const SizedBox(height: 25),
-              // FutureBuilder<bool>(
-              //     future: isRegistered(username),
-              //     builder: (context, snapshot) {
-              //       if (snapshot.connectionState == ConnectionState.waiting) {
-              //         return const CircularProgressIndicator(); // Display a loading indicator while fetching data
-              //       } else if (snapshot.hasError) {
-              //         return Text('Error: ${snapshot.error}');
-              //       } else {
-              //         bool RegistrationStatus = snapshot.data ?? false;
-              //         if (RegistrationStatus) {
-              //           return const registeredContainer();
-              //         } else {
-              //           return const notRegisteredContainer();
-              //         }
-              //       }
-              //     }),
             ],
           ),
         ),
@@ -126,7 +100,8 @@ class _HomePageState extends State<HomePage> {
 }
 
 class homePageCard extends StatelessWidget {
-  const homePageCard({super.key});
+  bool registrationStatus;
+  homePageCard(this.registrationStatus);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -188,10 +163,10 @@ class homePageCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const Positioned(
+              Positioned(
                 bottom: 16, // Adjust the bottom value as needed
                 right: 16, // Adjust the right value as needed
-                child: startButton(),
+                child: startButton(registrationStatus),
               ),
             ],
           ),
@@ -234,8 +209,7 @@ class homePageCard extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => const FeeStructurePage()),
+                MaterialPageRoute(builder: (context) => FeeStructurePage()),
               );
             },
             child: Container(
@@ -426,19 +400,66 @@ class infoCard extends StatelessWidget {
 }
 
 class startButton extends StatelessWidget {
-  const startButton({super.key});
+  bool registrationStatus;
+  startButton(this.registrationStatus);
 
   @override
   Widget build(BuildContext context) {
+    FormProvider formProvider = Provider.of<FormProvider>(context);
+    String form = formProvider.formType;
     return SizedBox(
       width: 90,
       child: ElevatedButton(
         onPressed: () {
           // Button click action
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const PersonalDetails()),
-          );
+          if (form == "NotEligible") {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: Text('You are not eligible to register!'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Close the dialog
+                        },
+                        child: Text('OK'),
+                      ),
+                    ],
+                  );
+                });
+          } else {
+            if (registrationStatus) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Text('You are already registered!'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const MyHomePage();
+                                },
+                              ),
+                            );
+                          },
+                          child: Text('OK'),
+                        ),
+                      ],
+                    );
+                  });
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PersonalDetails()),
+              );
+            }
+          }
         },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(

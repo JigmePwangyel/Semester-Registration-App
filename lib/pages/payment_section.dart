@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:semester_registration_app/models/RepeatModule.dart';
 import 'dart:io';
 import 'package:semester_registration_app/pages/MyHomePage.dart';
 import 'package:semester_registration_app/provider/RepeaterCheckProvider.dart';
@@ -246,51 +247,55 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
     }
   }
 
-  void showSuccessDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          contentPadding: const EdgeInsets.all(10),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.check_circle,
-                color: Color.fromARGB(209, 74, 209, 207),
-                size: 70,
-              ),
-              const SizedBox(height: 10),
-              const Text("You Have Been Successfully Registered"),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MyHomePage(),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(255, 102, 0, 1.0),
-                  minimumSize: const Size(150, 40),
-                ),
-                child: const Text('Back to Home'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // void showSuccessDialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         contentPadding: const EdgeInsets.all(10),
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             const Icon(
+  //               Icons.check_circle,
+  //               color: Color.fromARGB(209, 74, 209, 207),
+  //               size: 70,
+  //             ),
+  //             const SizedBox(height: 10),
+  //             const Text("You Have Been Successfully Registered"),
+  //             const SizedBox(height: 20),
+  //             ElevatedButton(
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //                 Navigator.push(
+  //                   context,
+  //                   MaterialPageRoute(
+  //                     builder: (context) => const MyHomePage(),
+  //                   ),
+  //                 );
+  //               },
+  //               style: ElevatedButton.styleFrom(
+  //                 backgroundColor: const Color.fromRGBO(255, 102, 0, 1.0),
+  //                 minimumSize: const Size(150, 40),
+  //               ),
+  //               child: const Text('Back to Home'),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     //Provider to store details
     StudentRegistrationProvider studentDataProvider =
         Provider.of<StudentRegistrationProvider>(context, listen: false);
+    EnteredModuleProvider repeatModuleProvider =
+        context.watch<EnteredModuleProvider>();
+    List<Module> addedModule = repeatModuleProvider.enteredModules;
+
     final String formType = context.watch<FormProvider>().formType;
     final String username = context.watch<UserProvider>().username;
     return Column(
@@ -315,7 +320,7 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
             child: ElevatedButton(
               onPressed: () async {
                 if (validateJournalNumber()) {
-                  showSuccessDialog(context);
+                  //showSuccessDialog(context);
                 }
                 final journalNUmber = moduleCodeController.text;
 
@@ -388,10 +393,93 @@ class _SendPaymentInfoState extends State<SendPaymentInfo> {
                           );
                         });
                   } else {
-                    print("Error");
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Registration Unsuccessfull'),
+                            content: Text('Journal Number cannot be same'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        });
                   }
                 } else {
                   //Will have repeat modules
+                  List<String> moduleCodes = [];
+                  for (Module module in addedModule) {
+                    String moduleCode = module.moduleCode;
+                    // Do something with the moduleCode, such as print it
+                    moduleCodes.add(moduleCode);
+                    print('Module Code2: $moduleCode');
+                  }
+                  int statusCode = await uploadRepeatStudentData(
+                      username,
+                      studentMobileNumber,
+                      studentEmail,
+                      parentName,
+                      parentMobileNumber,
+                      parentEmailId,
+                      parentCurrentAddress,
+                      semester,
+                      year,
+                      journalNUmber,
+                      amount,
+                      moduleCodes,
+                      paymentScreenshot);
+                  print("The status code is please be $statusCode");
+                  if (statusCode == 200) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Thank You'),
+                            content:
+                                Text('You have been successfully Registered!'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return const MyHomePage();
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        });
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Registration Unsuccessfull'),
+                            content: Text('Journal Number cannot be same'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        });
+                  }
                 }
               },
               style: ButtonStyle(

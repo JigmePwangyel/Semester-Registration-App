@@ -38,32 +38,40 @@ class ReceiptPage extends StatelessWidget {
               // If there's an error during the Future execution
               return Text('Error: ${snapshot.error}');
             } else {
-              final paymentResponse = snapshot.data!;
+              try {
+                final paymentResponse = snapshot.data!;
 
-              final paymentDetail = paymentResponse.paymentDetail[0];
-              final feeBreakdown = paymentResponse.feeBreakdown;
-              final totalFee = paymentResponse.totalFee;
-              final name = username;
+                final paymentDetail = paymentResponse.paymentDetail[0];
+                final feeBreakdown = paymentResponse.feeBreakdown;
+                final totalFee = paymentResponse.totalFee;
+                final name = username;
 
-              return Card(
-                child: Column(
-                  children: [
-                    Donwload(
-                        paymentDetail.journalNumber,
-                        paymentDetail.receiptNumber,
-                        paymentDetail.paymentDate,
-                        feeBreakdown,
-                        totalFee,
-                        name),
-                    ReceitpInfo(
-                      receiptNumber: paymentDetail.receiptNumber,
-                      paymentDate: paymentDetail.paymentDate,
-                    ),
-                    DisplayFees(feeBreakdown, totalFee),
-                    JournalNumber(journalNumber: paymentDetail.journalNumber),
-                  ],
-                ),
-              );
+                return Card(
+                  child: Column(
+                    children: [
+                      Donwload(
+                          paymentDetail.journalNumber,
+                          paymentDetail.receiptNumber,
+                          paymentDetail.paymentDate,
+                          feeBreakdown,
+                          totalFee,
+                          name),
+                      ReceitpInfo(
+                        receiptNumber: paymentDetail.receiptNumber,
+                        paymentDate: paymentDetail.paymentDate,
+                      ),
+                      DisplayFees(feeBreakdown, totalFee),
+                      JournalNumber(journalNumber: paymentDetail.journalNumber),
+                    ],
+                  ),
+                );
+              } catch (e) {
+                return Center(
+                    child: Text(
+                  "No receipt",
+                  style: TextStyle(fontSize: 18.0),
+                ));
+              }
             }
           }),
     ));

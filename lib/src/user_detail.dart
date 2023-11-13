@@ -58,3 +58,28 @@ Future<String> getRegistrationDetail(String userId) async {
     throw Exception('Exception: $e');
   }
 }
+
+Future<bool> changePassword(String userId, String newPassword) async {
+  bool changed = false;
+  final apiUrl =
+      'http://192.168.234.122:3000/user/$userId/changePassword'; // Replace with your API endpoint
+  try {
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'newPassword': newPassword,
+      }),
+    );
+    if (response.statusCode == 200) {
+      return changed = true;
+    } else {
+      return changed;
+    }
+  } catch (e) {
+    // Handle any network or request-related errors
+    throw Exception('Exception: $e');
+  }
+}

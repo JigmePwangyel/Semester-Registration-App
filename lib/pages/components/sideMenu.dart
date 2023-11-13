@@ -22,36 +22,36 @@ class sideMenu extends StatelessWidget {
             child: ListView(
               children: [
                 UserAccountsDrawerHeader(
-                  accountName: const Text("John Cena"),
-                  accountEmail: const Text("02210200.cst@rub.edu.bt"),
+                  accountName: const Text("Semester Registration App"),
+                  accountEmail: const Text(""),
                   currentAccountPicture: ClipOval(
-                    child: Image.network(
-                      "https://images.pexels.com/photos/3454298/pexels-photo-3454298.jpeg?auto=compress&cs=tinysrgb&w=600",
-                      width: 90,
-                      height: 90,
+                    child: Image.asset(
+                      'assets/cst.png',
+                      width: 200, // Adjust the size as needed
+                      height: 200,
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                const Divider(),
-                ListTile(
-                  leading: const Icon(Icons.account_box),
-                  title: const Text("Your Account"),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AccountPage(
-                        studentName: 'Jigme P Wangyal',
-                        studentID: '02210200',
-                        Department: 'Information Technology',
-                        email: '02210200.cst@rub.edu.bt',
-                        CID: '10601000234',
-                        imageUrl:
-                            "https://images.pexels.com/photos/3454298/pexels-photo-3454298.jpeg?auto=compress&cs=tinysrgb&w=600",
-                      ),
-                    ));
-                  },
-                ),
+                // const Divider(),
+                // ListTile(
+                //   leading: const Icon(Icons.account_box),
+                //   title: const Text("Your Account"),
+                //   onTap: () {
+                //     Navigator.of(context).pop();
+                //     Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (context) => const AccountPage(
+                //         studentName: 'Jigme P Wangyal',
+                //         studentID: '02210200',
+                //         Department: 'Information Technology',
+                //         email: '02210200.cst@rub.edu.bt',
+                //         CID: '10601000234',
+                //         imageUrl:
+                //             "https://images.pexels.com/photos/3454298/pexels-photo-3454298.jpeg?auto=compress&cs=tinysrgb&w=600",
+                //       ),
+                //     ));
+                //   },
+                // ),
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.settings),

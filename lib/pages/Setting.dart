@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semester_registration_app/pages/changePassword.dart';
 
 class Setting extends StatelessWidget {
   const Setting({super.key});
@@ -94,6 +95,25 @@ class Setting extends StatelessWidget {
             onTap: () {},
             trailing: const Icon(
               Icons.call,
+              color: Color.fromRGBO(0, 128, 255, 0.54),
+            ),
+            contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0),
+          ),
+          ListTile(
+            title: const Text(
+              "Change Password",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const password()),
+              );
+            },
+            trailing: const Icon(
+              Icons.key,
               color: Color.fromRGBO(0, 128, 255, 0.54),
             ),
             contentPadding: const EdgeInsets.only(left: 15.0, right: 15.0),

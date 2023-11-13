@@ -1,128 +1,113 @@
 import 'package:flutter/material.dart';
 
-class FeeStructurePage extends StatefulWidget {
-  const FeeStructurePage({super.key});
-
-  @override
-  _FeeStructurePageState createState() => _FeeStructurePageState();
-}
-
-class _FeeStructurePageState extends State<FeeStructurePage> {
-  bool isSelfFinance = true; // Initially, self-financed students are selected
-
+class FeeStructurePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fee Structure'),
+        title: Text('Fee Structure'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            // Toggle Switch for Self-Finance and Other Scholarships
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Self-Finance'),
-                Switch(
-                  value: isSelfFinance,
-                  onChanged: (value) {
-                    setState(() {
-                      isSelfFinance = value;
-                    });
-                  },
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 30,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Self-Finance Student',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                const Text('Other Scholarships'),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            // Fee Structure for Self-Finance Students
-            if (isSelfFinance)
-              const Column(
-                children: <Widget>[
-                  Text(
-                    'Self-Finance Student Fee Structure',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                   SizedBox(height: 10),
-                   Text(
-                    'Availing Hostel Fascilities',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Tuition Fee: Nu. 45,823',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  Text(
-                    'Hostel Fee: Nu. 12,500',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  Text(
-                    'CDF Fee: Nu. 750',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Fee for Day Scholars (No Hostel)',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    'Tuition Fee: Nu. 45,823',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  Text(
-                    'CDF Fee: Nu. 750',
-                    style: TextStyle(fontSize: 16),
-                  ),
+              ),
+              FeeDetailsCard(
+                feeDetails: [
+                  FeeDetail('Tuition Fee', 'Nu. 45,823'),
+                  FeeDetail('Hostel Fee', 'Nu. 12,500'),
                 ],
               ),
-
-            // Fee Structure for Other Scholarship Students
-            if (!isSelfFinance)
-              const Column(
-                children: <Widget>[
-                  Text(
-                    'RGoB Scholarship Student Fee Structure',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'CDF Fee: Nu. 750',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                   SizedBox(height: 10),
-                  Text(
-                    'Other Scholarship Student Fee Structure',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'CDF Fee: Nu. 750',
-                    style: TextStyle(fontSize: 16),
-                  ),
+              SizedBox(height: 30),
+              Text(
+                'Repeating Student',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              FeeDetailsCard(
+                feeDetails: [
+                  FeeDetail('Fee per Module', 'Nu. 9164'),
                 ],
               ),
-          ],
+              SizedBox(height: 30),
+              Text(
+                'For backpaper',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              FeeDetailsCard(
+                feeDetails: [
+                  FeeDetail('Each Paper', 'Nu. 200'),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class FeeDetail {
+  final String title;
+  final String amount;
+
+  FeeDetail(this.title, this.amount);
+}
+
+class FeeDetailsCard extends StatelessWidget {
+  final List<FeeDetail> feeDetails;
+
+  FeeDetailsCard({required this.feeDetails});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 3,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Table(
+          columnWidths: {
+            0: FlexColumnWidth(2),
+            1: FlexColumnWidth(1),
+          },
+          children: feeDetails
+              .map((detail) => TableRow(
+                    children: [
+                      TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text(
+                            detail.title,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text(detail.amount),
+                        ),
+                      ),
+                    ],
+                  ))
+              .toList(),
         ),
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:semester_registration_app/provider/RepeaterCheckProvider.dart';
 import 'add_module.dart';
 import 'payment_section.dart';
 
@@ -14,6 +16,7 @@ class _RepeatModuleState extends State<RepeatModule> {
 
   @override
   Widget build(BuildContext context) {
+    final repeaterProvider = context.watch<RepeaterCheckProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Register"),
@@ -120,11 +123,35 @@ class _RepeatModuleState extends State<RepeatModule> {
                   SizedBox(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const PaymentSection()),
-                        );
+                        //Handle for repeater and backpaper
+                        print("The length is: ${moduleValues.length}");
+                        if (repeaterProvider.result == "repeater" &&
+                            moduleValues.length == 0) {
+                          //You need to select atleast one repeat module too proceed.
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Text(
+                                      'You need to select at least one module to proceed!'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              });
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PaymentSection()),
+                          );
+                        }
                       },
                       style: ButtonStyle(
                         minimumSize:

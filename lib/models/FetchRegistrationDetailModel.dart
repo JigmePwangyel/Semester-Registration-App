@@ -44,12 +44,34 @@ class SemesterDetail {
 StudentRegistrationDetail parseStudentRegistrationDetail(String apiResponse) {
   final jsonData = json.decode(apiResponse);
 
-  return StudentRegistrationDetail(
-    studentName: jsonData['StudentRegistrationDetial'][0]['studentName'],
-    stdID: jsonData['StudentRegistrationDetial'][0]['stdID'].toString(),
-    dateOfBirth: jsonData['StudentRegistrationDetial'][0]['date_of_birth'],
-    mobileNumber: jsonData['StudentRegistrationDetial'][0]['mobileNumber'],
-  );
+  // return StudentRegistrationDetail(
+  //   studentName: jsonData['StudentRegistrationDetial'][0]['studentName'],
+  //   stdID: jsonData['StudentRegistrationDetial'][0]['stdID'].toString(),
+  //   dateOfBirth: jsonData['StudentRegistrationDetial'][0]['date_of_birth'],
+  //   mobileNumber: jsonData['StudentRegistrationDetial'][0]['mobileNumber'],
+  // );
+  try {
+    final jsonData = json.decode(apiResponse);
+
+    // Check if the expected fields are available
+    if (jsonData.containsKey('StudentRegistrationDetial') &&
+        jsonData['StudentRegistrationDetial'].isNotEmpty) {
+      return StudentRegistrationDetail(
+        studentName: jsonData['StudentRegistrationDetial'][0]['studentName'],
+        stdID: jsonData['StudentRegistrationDetial'][0]['stdID'].toString(),
+        dateOfBirth: jsonData['StudentRegistrationDetial'][0]['date_of_birth'],
+        mobileNumber: jsonData['StudentRegistrationDetial'][0]['mobileNumber'],
+      );
+    } else {
+      // Handle the case where the expected fields are not available
+      throw Exception(
+          'Invalid JSON structure for student registration details');
+    }
+  } catch (e) {
+    // Handle any parsing or other exceptions
+    print('Exception during parsing: $e');
+    throw Exception('Error parsing student registration details');
+  }
 }
 
 // Function to parse the JSON response and return a Parent object

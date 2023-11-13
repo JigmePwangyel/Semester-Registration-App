@@ -219,3 +219,71 @@ Future<int> uploadSeflFinaceStudentData(
     //return (500);
   }
 }
+
+Future<int> uploadRepeatStudentData(
+    String username,
+    String studentMobileNumber,
+    String studentEmail,
+    String parentName,
+    String parentMobileNumber,
+    String parentEmailId,
+    String parentCurrentAddress,
+    String semester,
+    String year,
+    String journalNumber,
+    String amount,
+    List<String> moduleCodes,
+    XFile? paymentScreenshot) async {
+  try {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('http://192.168.234.122:3000/registration/$username/repeater'),
+    );
+
+    // Add data to the request
+    request.fields['studentMobileNumber'] = studentMobileNumber;
+    request.fields['studentEmail'] = studentEmail;
+    request.fields['parentName'] = parentName;
+    request.fields['parentMobileNumber'] = parentMobileNumber;
+    request.fields['parentEmailId'] = parentEmailId;
+    request.fields['parentCurrentAddress'] = parentCurrentAddress;
+    request.fields['semester'] = semester;
+    request.fields['year'] = year;
+    request.fields['journalNUmber'] = journalNumber;
+    request.fields['amount'] = amount;
+
+    // Convert the list to a JSON string and add it to the request
+    request.fields['moduleCodes'] = jsonEncode(moduleCodes);
+
+    print(parentEmailId);
+
+    // Add image file if available
+    if (paymentScreenshot != null) {
+      var imageBytes = await paymentScreenshot.readAsBytes();
+      var imageStream = http.ByteStream.fromBytes(imageBytes);
+      var length = imageBytes.length;
+
+      request.files.add(
+        http.MultipartFile(
+          'image',
+          imageStream,
+          length,
+          filename: 'filename.jpg', // Provide a filename for the image
+        ),
+      );
+    }
+
+    var response = await http.Response.fromStream(await request.send());
+
+    if (response.statusCode == 200) {
+      print('Data uploaded successfully');
+      return 200;
+    } else {
+      print('Failed to upload data. Status code: ${response.statusCode}');
+      return 400;
+    }
+  } catch (error) {
+    print('Error uploading data: $error');
+    return 500;
+  }
+}

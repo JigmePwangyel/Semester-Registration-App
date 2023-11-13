@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_registration_app/pages/MyHomePage.dart';
+import 'package:semester_registration_app/provider/StoreRepeatModule.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../src/auth_service.dart';
 import '../provider/user_provider.dart';
@@ -29,6 +30,7 @@ class _LoginState extends State<Login> {
 
     //Provider for user State
     final userProvider = Provider.of<UserProvider>(context);
+    final enteredModuleProvider = Provider.of<EnteredModuleProvider>(context);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -147,6 +149,9 @@ class _LoginState extends State<Login> {
 
                           if (userProvider.isLoggedIn) {
                             userProvider.setUserName(username);
+                            enteredModuleProvider.clearData();
+                            print(
+                                "It is cleaned ${enteredModuleProvider.enteredModules}");
                             prefs.setString('username', username);
                             Navigator.of(context).push(
                               MaterialPageRoute(
